@@ -37,3 +37,12 @@ code {
 #StudentTable_tr{
     background-color: #FBE4D5;
 }
+
+#GardeTable_th{
+    background-color: #70AD47;
+    color: #ffffff;
+}
+
+#GardeTable_tr{
+    background-color: #E2EFD9;
+}
