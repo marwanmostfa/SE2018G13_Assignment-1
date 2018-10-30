@@ -87,7 +87,7 @@ Database::connect('school', 'root', '');
                                         <th scope="col">Course ID</th>
                                         <th scope="col">Course Name</th>
                                         <th scope="col">Grade</th>
-                                         <th scope="col">Max Grade</th>
+                                        <th scope="col">Max Grade</th>
                                         <th scope="col">Examine Date</th>
                                         <th scope="col"></th>
                                     </tr>
@@ -104,8 +104,8 @@ Database::connect('school', 'root', '');
                                             <td><?= $grade->max_degree ?></td>
                                             <td><?= $grade->examine_at ?></td>
                                             <td>
-                                                <button class="button" id="<?= $grade->id ?>">Edit</button>&nbsp;
-                                                <button class="button" id="<?= $grade->id ?>">Delete</button>
+                                                <button class="button edit_grade"  id="<?= $grade->id ?>">Edit</button>&nbsp;
+                                                <button class="button delete_grade" id="<?= $grade->id ?>">Delete</button>
                                             </td>
                                         </tr>
                                     <?php } ?>
@@ -123,6 +123,10 @@ Database::connect('school', 'root', '');
             $(document).ready(function () {
                 $('.edit_student').click(function (event) {
                     window.location.href = "editstudent.php?id=" + $(this).attr('id');
+                });
+
+                $('.edit_grade').click(function (event) {
+                    window.location.href = "editgrade.php?id=" + $(this).attr('id');
                 });
 
                 $('.delete_student').click(function () {
@@ -144,6 +148,29 @@ Database::connect('school', 'root', '');
                                 alert("Connection error.");
                             })
                 });
+
+
+
+                $('.delete_grade').click(function () {
+                    var anchor = $(this);
+                    $.ajax({
+                        url: './controllers/deletegrade.php',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {id: anchor.attr('id')},
+                    })
+                            .done(function (reponse) {
+                                if (reponse.status == 1) {
+                                    anchor.closest('tr').fadeOut('slow', function () {
+                                        $(this).remove();
+                                    });
+                                }
+                            })
+                            .fail(function () {
+                                alert("Connection error.");
+                            })
+                });
+
 
                 $('.show_grade').click(function () {
                     var anchor = $(this);
