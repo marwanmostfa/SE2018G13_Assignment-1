@@ -48,11 +48,8 @@ Database::connect('school', 'root', '');
                 </div>
             </form>
         </div>
-        <div style="padding: 10px 0px 40px 0px;">
-            <button class="button float-right edit_course" id="0">Add Course</button>
-        </div>
 
-        <table class="table">
+        <table class="table" style="margin-top: 20px">
             <thead>
                 <tr id="StudentTable_th">
                     <th scope="col">Course ID</th>
@@ -60,7 +57,7 @@ Database::connect('school', 'root', '');
                     <th scope="col">Max Degree</th>
                     <th scope="col">Study Year</th>
                     <th scope="col">Grade</th>
-                    <th scope="col"></th>
+                    <th scope="col"><button class="button float-right edit_course" id="0">Add Course</button></th>
                 </tr>
             </thead>
             <tbody>
@@ -84,9 +81,6 @@ Database::connect('school', 'root', '');
 
                     <tr id="grade<?= $Courses->id ?>" style="display: none">
                         <td colspan="6">
-                            <div style="padding: 10px 0px 40px 0px;">
-                                <button class="button float-right" id="0">Add Grade</button>
-                            </div>
                             <table class="table">
                                 <thead>
                                     <tr id="GardeTable_th">
@@ -94,7 +88,7 @@ Database::connect('school', 'root', '');
                                         <th scope="col">Student Name</th>
                                         <th scope="col">Grade</th>
                                         <th scope="col">Examine Date</th>
-                                        <th scope="col"></th>
+                                        <th scope="col"><button class="button float-right" id="0">Add Grade</button></th>
                                     </tr>
                                 </thead>
                                 <tbody>

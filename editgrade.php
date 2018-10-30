@@ -4,7 +4,7 @@ include_once('./components/head.php');
 include_once('./models/grade.php');
 $id = safeGet('id');
 Database::connect('school', 'root', '');
-$grades = new Grade($id , "std");
+$grades = new Grade($id, "std");
 ?>
 
 <body>    
@@ -20,10 +20,10 @@ $grades = new Grade($id , "std");
                     <li class="nav-item">
                         <a class="nav-link" href="./Home.php">Home</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="./students.php">Students<span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="./courses.php">Courses</a>
                     </li>
                 </ul>
@@ -42,8 +42,21 @@ $grades = new Grade($id , "std");
             <div class="card">
                 <div class="card-body">
                     <div class="form-group row gutters">
+                        
+                        <label  for="" class="col-sm-2 col-form-label">Student Name</label>
+                        <div class="col-sm-10" style="margin-bottom: 10px">
+                            <input class="form-control" type="text"  value="<?= $grades->get('std_name') ?>" disabled>
+                        </div>
 
+                        <label  for="" class="col-sm-2 col-form-label">Course Name</label>
+                        <div class="col-sm-10" style="margin-bottom: 10px">
+                            <input class="form-control" type="text"  value="<?= $grades->get('crs_name') ?>" disabled>
+                        </div>
 
+                        <label  for="" class="col-sm-2 col-form-label">Max Grade</label>
+                        <div class="col-sm-10" style="margin-bottom: 10px">
+                            <input class="form-control" type="text"  value="<?= $grades->get('max_degree') ?>" disabled>
+                        </div>
 
 
                         <label  for="" class="col-sm-2 col-form-label">Degree</label>
@@ -52,7 +65,7 @@ $grades = new Grade($id , "std");
                         </div>
                         <label for="" class="col-sm-2 col-form-label">Examine at</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="text" name="examine_at" value="<?= $grades->get('examine_at') ?>" required>
+                            <input class="form-control" type="date" name="examine_at" value="<?= $grades->get('examine_at') ?>" required>
                         </div>  
                     </div>
                     <div class="form-group">

@@ -6,7 +6,7 @@ class Grade extends Database {
 
     function __construct($id, $src) {
         if ($src == "std") {
-            $sql = "SELECT G.*,C.name,C.max_degree FROM grades as G join courses as C on (G.course_id = C.id) WHERE G.id = ('$id');";
+            $sql = "SELECT G.*,C.name as crs_name,C.max_degree,S.name as std_name FROM grades as G join courses as C on (G.course_id = C.id) join students as S on (G.student_id = S.id) WHERE G.id = ('$id');";
             $statement = Database::$db->prepare($sql);
             $statement->execute();
             $data = $statement->fetch(PDO::FETCH_ASSOC);

@@ -47,17 +47,14 @@ Database::connect('school', 'root', '');
                 </div>
             </form>
         </div>
-        <div style="padding: 10px 0px 40px 0px;">
-            <button class="button float-right edit_student" id="0">Add Student</button>
-        </div>
 
-        <table class="table">
+        <table class="table" style="margin-top: 20px">
             <thead>
                 <tr id="StudentTable_th">
                     <th scope="col">Student ID</th>
                     <th scope="col">Student Name</th>
                     <th scope="col">Grade</th>
-                    <th scope="col"></th>
+                    <th scope="col"><button class="button float-right edit_student" id="0">Add Student</button></th>
                 </tr>
             </thead>
             <tbody>
@@ -78,9 +75,6 @@ Database::connect('school', 'root', '');
                     </tr>
                     <tr id="grade<?= $student->id ?>" style="display: none">
                         <td colspan="4">
-                            <div style="padding: 10px 0px 40px 0px;">
-                                <button class="button float-right" id="0">Add Grade</button>
-                            </div>
                             <table class="table">
                                 <thead>
                                     <tr id="GardeTable_th">
@@ -89,7 +83,7 @@ Database::connect('school', 'root', '');
                                         <th scope="col">Grade</th>
                                         <th scope="col">Max Grade</th>
                                         <th scope="col">Examine Date</th>
-                                        <th scope="col"></th>
+                                        <th scope="col"><button class="button float-right" id="0">Add Grade</button></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -99,7 +93,7 @@ Database::connect('school', 'root', '');
                                         ?>
                                         <tr id="GardeTable_tr">
                                             <td><?= $grade->course_id ?></td>
-                                            <td><?= $grade->name ?></td>
+                                            <td><?= $grade->crs_name ?></td>
                                             <td style= "<?php if ($grade->degree > (0.3 * $grade->max_degree)) { ?>
                                                     color: #008000;
                                                 <?php } else { ?>
