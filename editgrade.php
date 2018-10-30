@@ -4,7 +4,7 @@ include_once('./components/head.php');
 include_once('./models/grade.php');
 $id = safeGet('id');
 Database::connect('school', 'root', '');
-$grades = new Grade($id);
+$grades = new Grade($id , "std");
 ?>
 
 <body>    
