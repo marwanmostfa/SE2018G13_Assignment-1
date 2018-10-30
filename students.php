@@ -87,20 +87,24 @@ Database::connect('school', 'root', '');
                                         <th scope="col">Course ID</th>
                                         <th scope="col">Course Name</th>
                                         <th scope="col">Grade</th>
-                                         <th scope="col">Max Grade</th>
+                                        <th scope="col">Max Grade</th>
                                         <th scope="col">Examine Date</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $grades = Grade::all($student->id);
+                                    $grades = Grade::std_all($student->id);
                                     foreach ($grades as $grade) {
                                         ?>
                                         <tr id="GardeTable_tr">
                                             <td><?= $grade->course_id ?></td>
                                             <td><?= $grade->name ?></td>
-                                            <td><?= $grade->degree ?></td>
+                                            <td style= "<?php if ($grade->degree > (0.3 * $grade->max_degree)) { ?>
+                                                    color: #008000;
+                                                <?php } else { ?>
+                                                    color: #FF0000;
+                                                <?php } ?>"><?= $grade->degree ?></td>
                                             <td><?= $grade->max_degree ?></td>
                                             <td><?= $grade->examine_at ?></td>
                                             <td>
