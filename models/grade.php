@@ -5,7 +5,7 @@ include_once('database.php');
 class Grade extends Database {
 
     function __construct($id) {
-        $sql = "SELECT G.*,C.name,C.max_degree FROM grades as G join courses as C on (G.course_id = C.id) WHERE G.student_id = ('$id');";
+        $sql = "SELECT G.*,C.name,C.max_degree FROM grades as G join courses as C on (G.course_id = C.id) WHERE G.id = ('$id');";
         //$sql = "SELECT * FROM grades WHERE id = $id;";
         $statement = Database::$db->prepare($sql);
         $statement->execute();

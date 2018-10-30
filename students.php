@@ -85,7 +85,9 @@ Database::connect('school', 'root', '');
                                 <thead>
                                     <tr id="GardeTable_th">
                                         <th scope="col">Course ID</th>
+                                        <th scope="col">Course Name</th>
                                         <th scope="col">Grade</th>
+                                         <th scope="col">Max Grade</th>
                                         <th scope="col">Examine Date</th>
                                         <th scope="col"></th>
                                     </tr>
@@ -97,7 +99,9 @@ Database::connect('school', 'root', '');
                                         ?>
                                         <tr id="GardeTable_tr">
                                             <td><?= $grade->course_id ?></td>
+                                            <td><?= $grade->name ?></td>
                                             <td><?= $grade->degree ?></td>
+                                            <td><?= $grade->max_degree ?></td>
                                             <td><?= $grade->examine_at ?></td>
                                             <td>
                                                 <button class="button" id="<?= $grade->id ?>">Edit</button>&nbsp;
