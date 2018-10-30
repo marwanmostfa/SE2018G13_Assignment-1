@@ -30,28 +30,19 @@ class Grade extends Database {
         }
     }
 
-
-    
-     public function delete() {
+    public function delete() {
         $sql = "DELETE FROM grades WHERE id = $this->id;";
         Database::$db->query($sql);
     }
-    
-    
-    
-    
-     public function save() {
-        
-        
-           $sql = "UPDATE grades SET degree = ?,examine_at = ? WHERE id = ?;";
-        
-        Database::$db->prepare($sql)->execute([$this->degree,$this->examine_at, $this->id]);
-    }
-    
 
-      public static function std_all($id) {
+    public function save() {
+        $sql = "UPDATE grades SET degree = ?,examine_at = ? WHERE id = ?;";
+        Database::$db->prepare($sql)->execute([$this->degree, $this->examine_at, $this->id]);
+    }
+
+    public static function std_all($id) {
         $sql = "SELECT * FROM grades WHERE student_id = ('$id');";
-              $statement = Database::$db->prepare($sql);
+        $statement = Database::$db->prepare($sql);
         $statement->execute();
         $grades = [];
         while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
@@ -59,7 +50,7 @@ class Grade extends Database {
         }
         return $grades;
     }
-   
+
     public static function crs_all($id) {
         $sql = "SELECT * FROM grades WHERE course_id = ('$id');";
         $statement = Database::$db->prepare($sql);

@@ -5,7 +5,6 @@ include_once('./models/grade.php');
 $id = safeGet('id');
 Database::connect('school', 'root', '');
 $grades = new Grade($id);
-
 ?>
 
 <body>    
@@ -35,21 +34,21 @@ $grades = new Grade($id);
     <main role="main" class="container">
 
         <h2 class="mt-4"><?= ($id) ? "Edit" : "Add" ?> Grade</h2>
-        
+
         <form action="controllers/savegrade.php" method="post">
-               <input type="hidden" name="id" value="<?= $grades->get('id') ?>">
-          
-            
+            <input type="hidden" name="id" value="<?= $grades->get('id') ?>">
+
+
             <div class="card">
                 <div class="card-body">
                     <div class="form-group row gutters">
-                        
-                     
-                        
-                       
+
+
+
+
                         <label  for="" class="col-sm-2 col-form-label">Degree</label>
                         <div class="col-sm-10" style="margin-bottom: 10px">
-                            <input class="form-control" type="text" name="degree" value="<?= $grades->get('degree')  ?>" required>
+                            <input class="form-control" type="text" name="degree" value="<?= $grades->get('degree') ?>" required>
                         </div>
                         <label for="" class="col-sm-2 col-form-label">Examine at</label>
                         <div class="col-sm-10">
