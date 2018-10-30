@@ -1,9 +1,8 @@
 <?php
 include_once('./controllers/common.php');
 include_once('./components/head.php');
-include_once('./models/student.php');
-include_once('./models/grade.php');
 include_once('./models/Courses.php');
+include_once('./models/grade.php');
 Database::connect('school', 'root', '');
 ?>
 
@@ -60,7 +59,8 @@ Database::connect('school', 'root', '');
                     <th scope="col">Course Name</th>
                     <th scope="col">Max Degree</th>
                     <th scope="col">Study Year</th>
-                    <th></th>
+                    <th scope="col">Grade</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -73,10 +73,52 @@ Database::connect('school', 'root', '');
                         <td><?= $Courses->name ?></td>
                         <td><?= $Courses->max_degree ?> </td>
                         <td><?= $Courses->study_year ?> </td>
-
+                        <td>
+                            <button class="button show_grade" id="<?= $Courses->id ?>">Show</button>
+                        </td>
                         <td>
                             <button class="button edit_course" id="<?= $Courses->id ?>">Edit</button>&nbsp;
                             <button class="button delete_course" id="<?= $Courses->id ?>">Delete</button>
+                        </td>
+                    </tr>
+
+                    <tr id="grade<?= $Courses->id ?>" style="display: none">
+                        <td colspan="6">
+                            <div style="padding: 10px 0px 40px 0px;">
+                                <button class="button float-right" id="0">Add Grade</button>
+                            </div>
+                            <table class="table">
+                                <thead>
+                                    <tr id="GardeTable_th">
+                                        <th scope="col">Student ID</th>
+                                        <th scope="col">Student Name</th>
+                                        <th scope="col">Grade</th>
+                                        <th scope="col">Examine Date</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $grades = Grade::crs_all($Courses->id);
+                                    foreach ($grades as $grade) {
+                                        ?>
+                                        <tr id="GardeTable_tr">
+                                            <td><?= $grade->student_id ?></td>
+                                            <td><?= $grade->std_name ?></td>
+                                            <td style= "<?php if ($grade->degree > (0.3 * $grade->max_degree)) { ?>
+                                                    color: #008000;
+                                                <?php } else { ?>
+                                                    color: #FF0000;
+                                                <?php } ?>"><?= $grade->degree ?></td>
+                                            <td><?= $grade->examine_at ?></td>
+                                            <td>
+                                                <button class="button" id="<?= $grade->id ?>">Edit</button>&nbsp;
+                                                <button class="button" id="<?= $grade->id ?>">Delete</button>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
                         </td>
                     </tr>
 
@@ -111,6 +153,19 @@ Database::connect('school', 'root', '');
                             .fail(function () {
                                 alert("Connection error.");
                             })
+                });
+
+                $('.show_grade').click(function () {
+                    var anchor = $(this);
+                    $('#grade' + anchor.attr('id')).slideToggle("Fast", function () {
+                        var status = anchor.text();
+                        if (status == "Show") {
+                            anchor.text("Hide");
+                        } else if (status == "Hide")
+                        {
+                            anchor.text("Show");
+                        }
+                    });
                 });
             });
         </script>    
