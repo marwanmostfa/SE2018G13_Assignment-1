@@ -78,6 +78,9 @@ Database::connect('school', 'root', '');
                     </tr>
                     <tr id="grade<?= $student->id ?>" style="display: none">
                         <td colspan="4">
+                            <div style="padding: 10px 0px 40px 0px;">
+                                <button class="button float-right" id="0">Add Grade</button>
+                            </div>
                             <table class="table">
                                 <thead>
                                     <tr id="GardeTable_th">
