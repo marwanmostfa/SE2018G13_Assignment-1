@@ -137,8 +137,8 @@ Database::connect('school', 'root', '');
                         dataType: 'json',
                         data: {id: anchor.attr('id')},
                     })
-                            .done(function (reponse) {
-                                if (reponse.status == 1) {
+                            .done(function (response) {
+                                if (response.status == 1) {
                                     anchor.closest('tr').fadeOut('slow', function () {
                                         $(this).remove();
                                     });

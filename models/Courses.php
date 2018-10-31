@@ -1,17 +1,9 @@
-<?php 
-include_once('database.php');   
+<?php
 
-class Courses  extends Database {
+include_once('database.php');
 
-    
-    
-    public function delete() {
-        $sql = "DELETE FROM courses WHERE id = $this->id;";
-        Database::$db->query($sql);
-    }
-    
-    
-    
+class Courses extends Database {
+
     function __construct($id) {
         $sql = "SELECT * FROM courses WHERE id = $id;";
         $statement = Database::$db->prepare($sql);
@@ -25,13 +17,17 @@ class Courses  extends Database {
         }
     }
 
-     public static function add($name ,$study_year , $max_degree) {
+    public static function add($name, $study_year, $max_degree) {
         $sql = "INSERT INTO courses (name,study_year,max_degree) VALUES (?,?,?)";
-        Database::$db->prepare($sql)->execute([$name,$study_year,$max_degree]);
+        Database::$db->prepare($sql)->execute([$name, $study_year, $max_degree]);
     }
-    
-    
-     public static function all($keyword) {
+
+    public function delete() {
+        $sql = "DELETE FROM courses WHERE id = $this->id;";
+        Database::$db->query($sql);
+    }
+
+    public static function all($keyword) {
         $keyword = str_replace(" ", "%", $keyword);
         $sql = "SELECT * FROM courses WHERE name like ('%$keyword%');";
         $statement = Database::$db->prepare($sql);
@@ -42,16 +38,12 @@ class Courses  extends Database {
         }
         return $courses;
     }
-    
+
     public function save() {
-        
-        
-           $sql = "UPDATE courses SET name = ?,study_year = ?,max_degree=? WHERE id = ?;";
-        
-        Database::$db->prepare($sql)->execute([$this->name,$this->study_year,$this->max_degree, $this->id]);
+        $sql = "UPDATE courses SET name = ?,study_year = ?,max_degree=? WHERE id = ?;";
+        Database::$db->prepare($sql)->execute([$this->name, $this->study_year, $this->max_degree, $this->id]);
     }
-    
+
 }
 
-include_once('./components/tail.php');
 ?>
