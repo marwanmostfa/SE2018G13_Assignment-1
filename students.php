@@ -83,7 +83,7 @@ Database::connect('school', 'root', '');
                                         <th scope="col">Grade</th>
                                         <th scope="col">Max Grade</th>
                                         <th scope="col">Examine Date</th>
-                                        <th scope="col"><button class="button float-right" id="0">Add Grade</button></th>
+                                        <th scope="col"><button class="button float-right add_grade" id="<?= $student->id ?>">Add Grade</button></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -126,7 +126,9 @@ Database::connect('school', 'root', '');
                 $('.edit_grade').click(function (event) {
                     window.location.href = "editgrade.php?id=" + $(this).attr('id');
                 });
-
+                $('.add_grade').click(function (event) {
+                    window.location.href = "addgrade.php?id=" + $(this).attr('id');
+                });
                 $('.delete_student').click(function () {
                     var anchor = $(this);
                     $.ajax({
@@ -182,6 +184,7 @@ Database::connect('school', 'root', '');
                         }
                     });
                 });
+                
 
             });
         </script>
