@@ -85,12 +85,26 @@ Database::connect('school', 'root', '');
                         <td colspan="4">
                             <table class="table">
                                 <thead>
+                                    <?php
+                                    $crs_id = safeGet("crsIDIcon");
+                                    $crs_name = safeGet("crsNameIcon");
+                                    $grade = safeGet("gradeIcon");
+                                    $examineat = safeGet("examineatIcon");
+                                    ?>
                                     <tr id="GardeTable_th">
-                                        <th scope="col">Course ID</th>
-                                        <th scope="col">Course Name</th>
-                                        <th scope="col">Grade</th>
+                                        <th scope="col">Course ID
+                                            <button class="button crsIDSortbtn"><i class="<?= ($crs_id == null) ? "fas fa-sort-amount-up crsIDSort" : $crs_id ?>"></i></button>
+                                        </th>
+                                        <th scope="col">Course Name
+                                            <button class="button crsNameSortbtn"><i class="<?= ($crs_name == null) ? "fas fa-sort-amount-up crsNameSort" : $crs_name ?>"></i></button>
+                                        </th>
+                                        <th scope="col">Grade
+                                            <button class="button gradeSortbtn"><i class="<?= ($grade == null) ? "fas fa-sort-amount-up gradeSort" : $grade ?>"></i></button>
+                                        </th>
                                         <th scope="col">Max Grade</th>
-                                        <th scope="col">Examine Date</th>
+                                        <th scope="col">Examine Date
+                                            <button class="button examineatSortbtn"><i class="<?= ($examineat == null) ? "fas fa-sort-amount-up examineatSort" : $examineat ?>"></i></button>
+                                        </th>
                                         <th scope="col"><button class="button float-right add_grade" id="<?= $student->id ?>">Add Grade</button></th>
                                     </tr>
                                 </thead>
