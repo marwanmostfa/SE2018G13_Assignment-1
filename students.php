@@ -30,7 +30,7 @@ Database::connect('school', 'root', '');
     </header>
     <!-- Begin page content -->
     <main role="main" class="container">
-        <h2 class="mt-4">Students</h2>
+        <h2 class="mt-5">Students</h2>
 
         <div>
             <form action="./students.php" class="form-inline">

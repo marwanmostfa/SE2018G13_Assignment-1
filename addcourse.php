@@ -37,7 +37,7 @@ $check_box = "checkbox" . $num;
     </header>
     <!-- Begin page content -->
     <main role="main" class="container">
-        <h2 class="mt-4">Edit Student Courses</h2>
+        <h2 class="mt-5">Edit Student Courses</h2>
         <form action="controllers/addnewcourse.php" method="post" >
             <input type="hidden" name="student_id" value="<?= $id ?>">
 
@@ -47,7 +47,7 @@ $check_box = "checkbox" . $num;
                         <div class="form-group col-sm-12">
                             <table class="table col-sm-12">
                                 <thead>
-                                    <tr id="StudentTable_th" >
+                                    <tr id="addCourseTable_th" >
                                         <th scope="col">Course Name</th>
                                         <th scope="col">Study Year</th>
                                     </tr>
@@ -66,7 +66,7 @@ $check_box = "checkbox" . $num;
                                             $num = $num + 1;
                                             $check_box = "checkbox" . $num;
                                             ?> 
-                                            <tr id="StudentTable_tr">
+                                            <tr id="addCourseTable_tr">
                                                 <td>
                                                     <div class="checkbox">
                                                         <input type="checkbox" name="<?= $check_box ?>" value="<?= $course->id ?>"> <?= $course->name ?>

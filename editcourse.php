@@ -33,7 +33,7 @@ $courses = new Courses($id);
     <!-- Begin page content -->
     <main role="main" class="container">
 
-        <h2 class="mt-4"><?= ($id) ? "Edit" : "Add" ?> Course</h2>
+        <h2 class="mt-5"><?= ($id) ? "Edit" : "Add" ?> Course</h2>
 
         <form action="controllers/savecourse.php" method="post">
             <input type="hidden" name="id" value="<?= $courses->get('id') ?>">

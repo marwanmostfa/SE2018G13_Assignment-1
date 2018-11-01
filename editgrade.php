@@ -22,11 +22,21 @@ $grades = new Grade($id, "std");
                     <li class="nav-item">
                         <a class="nav-link" href="./Home.php">Home</a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="./students.php">Students<span class="sr-only">(current)</span></a>
+                    <li class="nav-item  <?= ($page == "std") ? "active" : "" ?>">
+                        <a class="nav-link" href="./students.php">Students
+                            <?php if ($page == "std") { ?>
+                                <span class="sr-only">(current)</span></a>
+                        <?php } else { ?>
+                            </a>
+                        <?php } ?>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./courses.php">Courses</a>
+                    <li class="nav-item <?= ($page == "crs") ? "active" : "" ?>">
+                        <a class="nav-link" href="./courses.php">Courses
+                            <?php if ($page == "crs") { ?>
+                                <span class="sr-only">(current)</span></a>
+                        <?php } else { ?>
+                            </a>
+                        <?php } ?>
                     </li>
                 </ul>
             </div>

@@ -46,3 +46,13 @@ code {
 #GardeTable_tr{
     background-color: #DEEAF6;
 }
+
+#addCourseTable_th{
+    background-color: #FFC000;
+    color: #ffffff;
+}
+
+
+#addCourseTable_tr{
+    background-color: #FFF2CC;
+}

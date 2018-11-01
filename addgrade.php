@@ -36,7 +36,7 @@ $std = new Student($id);
     <!-- Begin page content -->
     <main role="main" class="container">
 
-        <h2 class="mt-4">Add Grade</h2>
+        <h2 class="mt-5">Add Grade</h2>
 
         <form action="controllers/saveaddedgrade.php" method="post">
             <input type="hidden" name="id" value="<?= $std->get('id') ?>">
