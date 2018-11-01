@@ -39,7 +39,6 @@ $grades = new Grade($id, "std");
         <form action="controllers/savegrade.php" method="post">
             <input type="hidden" name="id" value="<?= $grades->get('id') ?>">
 
-
             <div class="card">
                 <div class="card-body">
                     <div class="form-group row gutters">

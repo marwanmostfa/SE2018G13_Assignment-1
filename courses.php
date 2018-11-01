@@ -107,7 +107,7 @@ Database::connect('school', 'root', '');
                                             <td><?= $grade->examine_at ?></td>
                                             <td>
                                                 <button class="button" id="<?= $grade->id ?>">Edit</button>&nbsp;
-                                                <button class="button" id="<?= $grade->id ?>">Delete</button>
+                                                <button class="button delete_grade" id="<?= $grade->id ?>">Delete</button>
                                             </td>
                                         </tr>
                                     <?php } ?>
