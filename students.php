@@ -56,10 +56,10 @@ Database::connect('school', 'root', '');
                 ?>
                 <tr id="StudentTable_th">
                     <th scope="col">Student ID
-                        <button class="button float-right idSortbtn"><i class="<?= ($id_icon == null) ? "fas fa-sort-amount-up idSort" : $id_icon ?>"></i></button>
+                        <button class="button idSortbtn"><i class="<?= ($id_icon == null) ? "fas fa-sort-amount-up idSort" : $id_icon ?>"></i></button>
                     </th>
                     <th scope="col">Student Name
-                        <button class="button float-right nameSortbtn"><i class="<?= ($name_icon == null) ? "fas fa-random nameSort" : $name_icon ?>"></i></button>
+                        <button class="button nameSortbtn"><i class="<?= ($name_icon == null) ? "fas fa-random nameSort" : $name_icon ?>"></i></button>
                     </th>
                     <th scope="col"  style="padding-bottom: 18px">Grade</th>
                     <th scope="col"><button class="button float-right edit_student" id="0">Add Student</button></th>
