@@ -73,11 +73,10 @@ class Grade extends Database {
         return $grades;
     }
 
-    public static function add($course_id, $student_id, $degree, $examine_at) {
-         $sql = "INSERT INTO grade (course_id,student_id,degree,examine_at) VALUES (?,?,?,?)";
-        Database::$db->prepare($sql)->execute([$course_id,$student_id, $degree, $examine_at]);
+    public static function add($course_id, $student_id) {
+        $sql = "INSERT INTO grades (course_id,student_id,degree,examine_at) VALUES (?,?,NULL,NULL)";
+        Database::$db->prepare($sql)->execute([$course_id, $student_id]);
     }
-
 }
 
 ?>

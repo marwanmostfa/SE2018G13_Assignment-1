@@ -6,14 +6,10 @@ include_once('./models/grade.php');
 include_once('./models/Courses.php');
 $id = safeGet('id');
 Database::connect('school', 'root', '');
-$student = new Student($id);
-$grades = (Grade::std_all($student->id, 'std'));
-$courses = Courses::all(safeGet('keywords'),null,null);
-$mrH=[];
-$num=null;
-$asd="x";
-$check_box="checkbox".$num;
-
+$grades = (Grade::std_all($id, 'std'));
+$courses = Courses::all(safeGet('keywords'), null, null);
+$num = 0;
+$check_box = "checkbox" . $num;
 ?>
 
 <body>    
@@ -41,86 +37,57 @@ $check_box="checkbox".$num;
     </header>
     <!-- Begin page content -->
     <main role="main" class="container">
-
-        <h2 class="mt-4"><?= ($id) ? "Edit" : "Add" ?> Student Courses</h2>
-
+        <h2 class="mt-4">Edit Student Courses</h2>
         <form action="controllers/addnewcourse.php" method="post" >
+            <input type="hidden" name="student_id" value="<?= $id ?>">
 
-            <input type="hidden" name="student_id" value="<?= $student->get('id') ?>">
-
-            <div class="card-body">
-                <div class="form-group row gutters"  style="margin-top: 20px">
-
-                    <div >
-                        <table class="table  "  >
-                           
-                            <thead  class="col-sm-20">
-                                <tr id="StudentTable_th" >
-                                    
-
-                                    <th scope="col" class="col-sm-10">Course Name</th>
-
-                                    <th scope="col" class="col-sm-10">Study Year</th>
-    
-                                    
-                                </tr>
-                               
-                            </thead>
-
-                            <?php
-                            $grades = Grade::std_all($student->id);
-                            $sum = 0;
-                            foreach ($courses as $course) {
-                                $true_counter = 0;
-                              
-                               
-                                foreach ($grades as $grade) {
-                                    $sum = $sum + 1;
-                                    if ($course->id != $grade->course_id) {
-                                        $true_counter = $true_counter + 1;
-                                    }
-                                }
-                                if ($true_counter == $sum) {
-                                    $mrH[]=$course->id;
-                                    
-                                     $num=$num+1;
-                                $check_box="checkbox".$num;
-                               
-                                    ?> 
-                                    <tr id="StudentTable_tr">
-                                   
-                                        <td >
-                                            <input type="checkbox"   name=<?= $check_box ?> value="<?= $course->id ?> " class="col-sm-10 form-control" >  <?= $course->name  ?> 
-                                        </td>
-                                 
-                                        <td>
-                                            <?=$course->study_year   ?>
-                                           
-                                        </td>
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group row gutters"  style="margin-top: 20px">
+                        <div class="form-group col-sm-12">
+                            <table class="table col-sm-12">
+                                <thead>
+                                    <tr id="StudentTable_th" >
+                                        <th scope="col">Course Name</th>
+                                        <th scope="col">Study Year</th>
                                     </tr>
-
+                                </thead>
+                                <tbody>
                                     <?php
-                                }
-                                $sum = 0;
-                            }
-                            ?>
-
-                        </table>
-                    </div>
-
-<?php
-
-?>
-
-                    <div class="form-group">
-                        <button class="button float-right" name="number_box" value="<?= $num?>" type="submit"><?= "Add" ?></button>
+                                    foreach ($courses as $course) {
+                                        $flag = TRUE;
+                                        foreach ($grades as $grade) {
+                                            if ($course->id == $grade->course_id) {
+                                                $flag = FALSE;
+                                                break;
+                                            }
+                                        }
+                                        if ($flag == TRUE) {
+                                            $num = $num + 1;
+                                            $check_box = "checkbox" . $num;
+                                            ?> 
+                                            <tr id="StudentTable_tr">
+                                                <td>
+                                                    <div class="checkbox">
+                                                        <input type="checkbox" name="<?= $check_box ?>" value="<?= $course->id ?>"> <?= $course->name ?>
+                                                    </div>
+                                                </td>
+                                                <td><?= $course->study_year ?></td>
+                                            </tr>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <?php
+                        ?>
+                        <div class="form-group col-sm-12">
+                            <button class="button float-right" type="submit" name="number_box" value="<?= $num ?>" >Add</button>
+                        </div>
                     </div>
                 </div>
-                </<div>
-
-                </div>
- <input type="checkbox"   name="" value="y" class="col-sm-10 form-control" > 
-                                   
+            </div>
         </form>
-
         <?php include_once('./components/tail.php') ?>

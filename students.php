@@ -30,10 +30,8 @@ Database::connect('school', 'root', '');
     </header>
     <!-- Begin page content -->
     <main role="main" class="container">
+        <h2 class="mt-4">Students</h2>
 
-        <div>
-            <span style="font-size: 125%;">Students</span>
-        </div>
         <div>
             <form action="./students.php" class="form-inline">
                 <div class="input-group" style="width: 100%">
@@ -47,7 +45,6 @@ Database::connect('school', 'root', '');
                 </div>
             </form>
         </div>
-        <p id="p"></p>
         <table class="table" style="margin-top: 20px">
             <thead>
                 <?php
@@ -105,7 +102,7 @@ Database::connect('school', 'root', '');
                                         <th scope="col">Examine Date
                                             <button class="button examineatSortbtn"><i class="<?= ($examineat == null) ? "fas fa-sort-amount-up examineatSort" : $examineat ?>"></i></button>
                                         </th>
-                                        <th scope="col"><button class="button float-right add_grade" id="<?= $student->id ?>">Add Grade</button></th>
+                                        <th scope="col"><button class="button float-right add_Courses" id="<?= $student->id ?>">Add Courses</button></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -156,7 +153,7 @@ Database::connect('school', 'root', '');
                     window.location.href = "editgrade.php?id=" + $(this).attr('id') + "&page=std";
                 });
 
-                $('.add_grade').click(function (event) {
+                $('.add_Courses').click(function (event) {
                     window.location.href = "addcourse.php?id=" + $(this).attr('id');
                 });
 
