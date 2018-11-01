@@ -32,9 +32,15 @@ class Student extends Database {
         Database::$db->prepare($sql)->execute([$this->name, $this->id]);
     }
 
-    public static function all($keyword) {
+    public static function all($keyword, $cloumn, $order) {
+        if ($cloumn == null) {
+            $cloumn = "id";
+        }
+        if ($order == null) {
+            $order = "ASC";
+        }
         $keyword = str_replace(" ", "%", $keyword);
-        $sql = "SELECT * FROM students WHERE name like ('%$keyword%');";
+        $sql = "SELECT * FROM students WHERE name like ('%$keyword%') ORDER BY $cloumn $order;";
         $statement = Database::$db->prepare($sql);
         $statement->execute();
         $students = [];

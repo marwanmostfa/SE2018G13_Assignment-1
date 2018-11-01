@@ -47,19 +47,32 @@ Database::connect('school', 'root', '');
                 </div>
             </form>
         </div>
-
+        <p id="p"></p>
         <table class="table" style="margin-top: 20px">
             <thead>
+                <?php
+                $btn = safeGet("button");
+                $i = safeGet("icon");
+                if ($i == null && $btn == "idSort") {
+                    $i = "fas fa-sort-amount-up idSort";
+                } elseif ($i == null && $btn == "nameSort") {
+                    $i = "fas fa-sort-amount-up nameSort";
+                }
+                ?>
                 <tr id="StudentTable_th">
-                    <th scope="col">Student ID</th>
-                    <th scope="col">Student Name</th>
+                    <th scope="col">Student ID
+                        <button class="button float-right idSortbtn"><i class="<?= ($btn == "idSort") ? $i : "fas fa-sort-amount-up idSort" ?>"></i></button>
+                    </th>
+                    <th scope="col">Student Name
+                        <button class="button float-right nameSortbtn"><i class="<?= ($btn == "nameSort") ? $i : "fas fa-sort-amount-up nameSort" ?>"></i></button>
+                    </th>
                     <th scope="col">Grade</th>
                     <th scope="col"><button class="button float-right edit_student" id="0">Add Student</button></th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $students = Student::all(safeGet('keywords'));
+                $students = Student::all(safeGet('keywords'), safeGet("column"), safeGet("order"));
                 foreach ($students as $student) {
                     ?>
                     <tr id="StudentTable_tr">
@@ -115,6 +128,16 @@ Database::connect('school', 'root', '');
             </tbody>
         </table>
 
+        <form style="display: hidden" action="students.php" method="POST" id="form">
+            <input type="hidden" id="column" name="column" value=""/>
+            <input type="hidden" id="order" name="order" value=""/>
+            <input type="hidden" id="icon" name="icon" value=""/>
+            <input type="hidden" id="button" name="button" value=""/>
+
+        </form>
+
+
+
         <?php include_once('./components/tail.php') ?>
 
         <script type="text/javascript">
@@ -122,7 +145,6 @@ Database::connect('school', 'root', '');
                 $('.edit_student').click(function (event) {
                     window.location.href = "editstudent.php?id=" + $(this).attr('id');
                 });
-
                 $('.edit_grade').click(function (event) {
                     window.location.href = "editgrade.php?id=" + $(this).attr('id');
                 });
@@ -148,9 +170,6 @@ Database::connect('school', 'root', '');
                                 alert("Connection error.");
                             })
                 });
-
-
-
                 $('.delete_grade').click(function () {
                     var anchor = $(this);
                     $.ajax({
@@ -170,8 +189,6 @@ Database::connect('school', 'root', '');
                                 alert("Connection error.");
                             })
                 });
-
-
                 $('.show_grade').click(function () {
                     var anchor = $(this);
                     $('#grade' + anchor.attr('id')).slideToggle("Fast", function () {
@@ -184,7 +201,39 @@ Database::connect('school', 'root', '');
                         }
                     });
                 });
-                
 
+                $('.idSortbtn').click(function () {
+                    var anchor = $('.idSort');
+                    var status = anchor.attr('class');
+                    if (status == "fas fa-sort-amount-down idSort") {
+                        $("#column").val("id");
+                        $("#order").val("ASC");
+                        $("#icon").val("fas fa-sort-amount-up idSort");
+                    } else if (status == "fas fa-sort-amount-up idSort")
+                    {
+                        $("#column").val("id");
+                        $("#order").val("DESC");
+                        $("#icon").val("fas fa-sort-amount-down idSort");
+                    }
+                    $("#button").val("idSort");
+                    $("#form").submit();
+                });
+
+                $('.nameSortbtn').click(function () {
+                    var anchor = $('.nameSort');
+                    var status = anchor.attr('class');
+                    if (status == "fas fa-sort-amount-down nameSort") {
+                        $("#column").val("name");
+                        $("#order").val("ASC");
+                        $("#icon").val("fas fa-sort-amount-up nameSort");
+                    } else if (status == "fas fa-sort-amount-up nameSort")
+                    {
+                        $("#column").val("name");
+                        $("#order").val("DESC");
+                        $("#icon").val("fas fa-sort-amount-down nameSort");
+                    }
+                    $("#button").val("nameSort");
+                    $("#form").submit();
+                });
             });
         </script>
