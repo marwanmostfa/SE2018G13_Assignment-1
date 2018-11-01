@@ -1,10 +1,12 @@
 <?php
 include_once("./controllers/common.php");
 include_once('./components/head.php');
+include_once('./models/student.php');
+include_once('./models/Courses.php');
 include_once('./models/grade.php');
 $id = safeGet('id');
 Database::connect('school', 'root', '');
-$grades = new Grade($id, "std");
+$std = new Student($id);
 ?>
 
 
@@ -34,43 +36,50 @@ $grades = new Grade($id, "std");
     <!-- Begin page content -->
     <main role="main" class="container">
 
-        <h2 class="mt-4"><?= ($id) ? "Edit" : "Add" ?> Grade</h2>
+        <h2 class="mt-4">Add Grade</h2>
 
-        <form action="controllers/addgrade.php" method="post">
-            <input type="hidden" name="id" value="<?= $grades->get('id') ?>">
+        <form action="controllers/saveaddedgrade.php" method="post">
+            <input type="hidden" name="id" value="<?= $std->get('id') ?>">
 
 
             <div class="card">
                 <div class="card-body">
                     <div class="form-group row gutters">
-                        
+
                         <label  for="" class="col-sm-2 col-form-label">Student Name</label>
                         <div class="col-sm-10" style="margin-bottom: 10px">
-                            <input class="form-control" type="text"  value="<?= $grades->get('std_name') ?>" disabled>
+                            <input class="form-control" type="text"  value="<?= $std->get('name') ?>" disabled>
                         </div>
 
                         <label  for="" class="col-sm-2 col-form-label">Course Name</label>
                         <div class="col-sm-10" style="margin-bottom: 10px">
-                            <input class="form-control" type="text"  value="<?= $grades->get('crs_name') ?>" >
+                            <select class="form-control crsname" name="courseID">
+                                <option value="0" selected></option>
+                                <?php
+                                $courses = Grade::empty_grade($std->get('id'));
+                                foreach ($courses as $course) {
+                                    ?>
+                                    <option value="<?= $course->crs_id ?>"><?= $course->crs_name ?></option>
+                                <?php } ?>
+                            </select>
                         </div>
 
                         <label  for="" class="col-sm-2 col-form-label">Max Grade</label>
                         <div class="col-sm-10" style="margin-bottom: 10px">
-                            <input class="form-control" type="text"  value="<?= $grades->get('max_degree') ?>" disabled>
+                            <input class="form-control maxdegree" type="text"  disabled>
                         </div>
-
 
                         <label  for="" class="col-sm-2 col-form-label">Degree</label>
                         <div class="col-sm-10" style="margin-bottom: 10px">
-                            <input class="form-control" type="text" name="degree" value="<?= $grades->get('degree') ?>" required>
+                            <input class="form-control" type="text" name="degree" required>
                         </div>
                         <label for="" class="col-sm-2 col-form-label">Examine at</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="date" name="examine_at" value="<?= $grades->get('examine_at') ?>" required>
+                            <input class="form-control" type="date" name="examine_at" required>
                         </div>  
                     </div>
                     <div class="form-group">
-                        <button class="button float-right" type="submit"><?= ($id) ? "Save" : "Add" ?></button>
+                        <button class="button float-right" type="submit">Add</button>
                     </div>
                 </div>
             </div>
@@ -78,9 +87,16 @@ $grades = new Grade($id, "std");
 
         <?php include_once('./components/tail.php') ?> 
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.crsname').change(function () {
+                    var crs = new Courses($('.crsname').val());
+                    // $('.maxdegree').val(crs.val(max_degree));
+                });
+            });
+        </script>
+
+
+
+
 
