@@ -3,6 +3,7 @@ include_once("./controllers/common.php");
 include_once('./components/head.php');
 include_once('./models/grade.php');
 $id = safeGet('id');
+$page = safeGet('page');
 Database::connect('school', 'root', '');
 $grades = new Grade($id, "std");
 ?>
@@ -38,11 +39,12 @@ $grades = new Grade($id, "std");
 
         <form action="controllers/savegrade.php" method="post">
             <input type="hidden" name="id" value="<?= $grades->get('id') ?>">
+            <input type="hidden" name="page" value="<?= $page ?>">
 
             <div class="card">
                 <div class="card-body">
                     <div class="form-group row gutters">
-                        
+
                         <label  for="" class="col-sm-2 col-form-label">Student Name</label>
                         <div class="col-sm-10" style="margin-bottom: 10px">
                             <input class="form-control" type="text"  value="<?= $grades->get('std_name') ?>" disabled>
