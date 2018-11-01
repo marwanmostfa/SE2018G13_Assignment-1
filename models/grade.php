@@ -1,13 +1,12 @@
 <?php
 
-
 include_once('database.php');
 
 class Grade extends Database {
 
     function __construct($id, $src) {
         if ($src == "std") {
-            $sql = "SELECT G.*,C.name as crs_name,C.max_degree,S.name as std_name FROM grades as G join courses as C on (G.course_id = C.id) join students as S on (G.student_id = S.id) WHERE G.id = ('$id');";
+            $sql = "SELECT G.*,C.id as crs_id,C.name as crs_name,C.max_degree,S.name as std_name FROM grades as G join courses as C on (G.course_id = C.id) join students as S on (G.student_id = S.id) WHERE G.id = ('$id');";
             $statement = Database::$db->prepare($sql);
             $statement->execute();
             $data = $statement->fetch(PDO::FETCH_ASSOC);
@@ -62,13 +61,23 @@ class Grade extends Database {
         }
         return $grades;
     }
-    public static function add($course_id, $degree, $examine_at){
-//                     $sql = "UPDATE grades SET degree = ?,examine_at = ? WHERE course_id = ?;";
-//        Database::$db->prepare($sql)->execute([$degree, $examine_at, $this->course_id]);
-          $sql = "UPDATE grades SET degree = ?,examine_at = ? WHERE course_id = ?;";
-        Database::$db->prepare($sql)->execute([$this->degree, $this->examine_at, $this->course_id]);
-        
+
+    public static function empty_grade($id) {
+        $sql = "SELECT * FROM grades WHERE ((student_id = ('$id')) AND (degree is NULL));";
+        $statement = Database::$db->prepare($sql);
+        $statement->execute();
+        $grades = [];
+        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $grades[] = new Grade($row['id'], "std");
+        }
+        return $grades;
     }
+
+    public static function add($course_id, $student_id, $degree, $examine_at) {
+        $sql = "UPDATE grades SET degree = ?,examine_at = ? WHERE (course_id = ? and student_id = ?);";
+        Database::$db->prepare($sql)->execute([$degree, $examine_at, $course_id, $student_id]);
+    }
+
 }
 
 ?>
