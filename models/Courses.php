@@ -27,9 +27,15 @@ class Courses extends Database {
         Database::$db->query($sql);
     }
 
-    public static function all($keyword) {
+    public static function all($keyword, $cloumn, $order) {
+        if ($cloumn == null) {
+            $cloumn = "id";
+        }
+        if ($order == null) {
+            $order = "ASC";
+        }
         $keyword = str_replace(" ", "%", $keyword);
-        $sql = "SELECT * FROM courses WHERE name like ('%$keyword%');";
+        $sql = "SELECT * FROM courses WHERE name like ('%$keyword%') ORDER BY $cloumn $order;";
         $statement = Database::$db->prepare($sql);
         $statement->execute();
         $courses = [];

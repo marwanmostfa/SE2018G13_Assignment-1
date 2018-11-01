@@ -61,7 +61,7 @@ Database::connect('school', 'root', '');
                     <th scope="col">Student Name
                         <button class="button float-right nameSortbtn"><i class="<?= ($name_icon == null) ? "fas fa-random nameSort" : $name_icon ?>"></i></button>
                     </th>
-                    <th scope="col">Grade</th>
+                    <th scope="col"  style="padding-bottom: 18px">Grade</th>
                     <th scope="col"><button class="button float-right edit_student" id="0">Add Student</button></th>
                 </tr>
             </thead>
@@ -139,7 +139,7 @@ Database::connect('school', 'root', '');
                 });
 
                 $('.edit_grade').click(function (event) {
-                    window.location.href = "editgrade.php?id=" + $(this).attr('id');
+                    window.location.href = "editgrade.php?id=" + $(this).attr('id') + "&page=std";
                 });
 
                 $('.add_grade').click(function (event) {

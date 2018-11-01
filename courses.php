@@ -51,18 +51,29 @@ Database::connect('school', 'root', '');
 
         <table class="table" style="margin-top: 20px">
             <thead>
+                <?php
+                $id_icon = safeGet("idIcon");
+                $name_icon = safeGet("nameIcon");
+                $year_icon = safeGet("yearIcon");
+                ?>
                 <tr id="StudentTable_th">
-                    <th scope="col">Course ID</th>
-                    <th scope="col">Course Name</th>
-                    <th scope="col">Max Degree</th>
-                    <th scope="col">Study Year</th>
-                    <th scope="col">Grade</th>
+                    <th scope="col">Course ID
+                        <button class="button float-right idSortbtn"><i class="<?= ($id_icon == null) ? "fas fa-sort-amount-up idSort" : $id_icon ?>"></i></button>
+                    </th>
+                    <th scope="col">Course Name
+                        <button class="button float-right nameSortbtn"><i class="<?= ($name_icon == null) ? "fas fa-random nameSort" : $name_icon ?>"></i></button>
+                    </th>
+                    <th scope="col" style="padding-bottom: 18px">Max Degree</th>
+                    <th scope="col">Study Year
+                        <button class="button float-right yearSortbtn"><i class="<?= ($year_icon == null) ? "fas fa-random yearSort" : $year_icon ?>"></i></button>
+                    </th>
+                    <th scope="col"  style="padding-bottom: 18px">Grade</th>
                     <th scope="col"><button class="button float-right edit_course" id="0">Add Course</button></th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $courses = Courses::all(safeGet('keywords'));
+                $courses = Courses::all(safeGet('keywords'), safeGet("column"), safeGet("order"));
                 foreach ($courses as $Courses) {
                     ?>
                     <tr id="StudentTable_tr">
@@ -106,7 +117,7 @@ Database::connect('school', 'root', '');
                                                 <?php } ?>"><?= $grade->degree ?></td>
                                             <td><?= $grade->examine_at ?></td>
                                             <td>
-                                                <button class="button" id="<?= $grade->id ?>">Edit</button>&nbsp;
+                                                <button class="button  edit_grade" id="<?= $grade->id ?>">Edit</button>&nbsp;
                                                 <button class="button delete_grade" id="<?= $grade->id ?>">Delete</button>
                                             </td>
                                         </tr>
@@ -120,6 +131,14 @@ Database::connect('school', 'root', '');
             </tbody>
         </table>
 
+        <form style="display: hidden" action="courses.php" method="POST" id="form">
+            <input type="hidden" id="column" name="column" value=""/>
+            <input type="hidden" id="order" name="order" value=""/>
+            <input type="hidden" id="idIcon" name="idIcon" value=""/>
+            <input type="hidden" id="nameIcon" name="nameIcon" value=""/>
+            <input type="hidden" id="yearIcon" name="yearIcon" value=""/>
+        </form>
+
         <?php include_once('./components/tail.php') ?>
 
         <script type="text/javascript">
@@ -129,10 +148,34 @@ Database::connect('school', 'root', '');
 
                 });
 
+                $('.edit_grade').click(function (event) {
+                    window.location.href = "editgrade.php?id=" + $(this).attr('id') + "&page=crs";
+                });
+
                 $('.delete_course').click(function () {
                     var anchor = $(this);
                     $.ajax({
                         url: './controllers/deletecourses.php',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {id: anchor.attr('id')},
+                    })
+                            .done(function (response) {
+                                if (response.status == 1) {
+                                    anchor.closest('tr').fadeOut('slow', function () {
+                                        $(this).remove();
+                                    });
+                                }
+                            })
+                            .fail(function () {
+                                alert("Connection error.");
+                            })
+                });
+
+                $('.delete_grade').click(function () {
+                    var anchor = $(this);
+                    $.ajax({
+                        url: './controllers/deletegrade.php',
                         type: 'GET',
                         dataType: 'json',
                         data: {id: anchor.attr('id')},
@@ -161,5 +204,81 @@ Database::connect('school', 'root', '');
                         }
                     });
                 });
+
+                $('.idSortbtn').click(function () {
+                    var anchor = $('.idSort');
+                    var status = anchor.attr('class');
+                    if (status == "fas fa-sort-amount-down idSort") {
+                        $("#column").val("id");
+                        $("#order").val("ASC");
+                        $("#idIcon").val("fas fa-sort-amount-up idSort");
+                        $("#nameIcon").val("fas fa-random nameSort");
+                        $("#yearIcon").val("fas fa-random yearSort");
+                    } else if (status == "fas fa-sort-amount-up idSort") {
+                        $("#column").val("id");
+                        $("#order").val("DESC");
+                        $("#idIcon").val("fas fa-sort-amount-down idSort");
+                        $("#nameIcon").val("fas fa-random nameSort");
+                        $("#yearIcon").val("fas fa-random yearSort");
+                    } else if (status == "fas fa-random idSort") {
+                        $("#column").val("id");
+                        $("#order").val("ASC");
+                        $("#idIcon").val("fas fa-sort-amount-up idSort");
+                        $("#nameIcon").val("fas fa-random nameSort");
+                        $("#yearIcon").val("fas fa-random yearSort");
+                    }
+                    $("#form").submit();
+                });
+
+                $('.nameSortbtn').click(function () {
+                    var anchor = $('.nameSort');
+                    var status = anchor.attr('class');
+                    if (status == "fas fa-sort-amount-down nameSort") {
+                        $("#column").val("name");
+                        $("#order").val("ASC");
+                        $("#nameIcon").val("fas fa-sort-amount-up nameSort");
+                        $("#idIcon").val("fas fa-random idSort");
+                        $("#yearIcon").val("fas fa-random yearSort");
+                    } else if (status == "fas fa-sort-amount-up nameSort") {
+                        $("#column").val("name");
+                        $("#order").val("DESC");
+                        $("#nameIcon").val("fas fa-sort-amount-down nameSort");
+                        $("#idIcon").val("fas fa-random idSort");
+                        $("#yearIcon").val("fas fa-random yearSort");
+                    } else if (status == "fas fa-random nameSort") {
+                        $("#column").val("name");
+                        $("#order").val("ASC");
+                        $("#nameIcon").val("fas fa-sort-amount-up nameSort");
+                        $("#idIcon").val("fas fa-random idSort");
+                        $("#yearIcon").val("fas fa-random yearSort");
+                    }
+                    $("#form").submit();
+                });
+
+                $('.yearSortbtn').click(function () {
+                    var anchor = $('.yearSort');
+                    var status = anchor.attr('class');
+                    if (status == "fas fa-sort-amount-down yearSort") {
+                        $("#column").val("study_year");
+                        $("#order").val("ASC");
+                        $("#yearIcon").val("fas fa-sort-amount-up yearSort");
+                        $("#idIcon").val("fas fa-random idSort");
+                        $("#nameIcon").val("fas fa-random nameSort");
+                    } else if (status == "fas fa-sort-amount-up yearSort") {
+                        $("#column").val("study_year");
+                        $("#order").val("DESC");
+                        $("#yearIcon").val("fas fa-sort-amount-down yearSort");
+                        $("#idIcon").val("fas fa-random idSort");
+                        $("#nameIcon").val("fas fa-random nameSort");
+                    } else if (status == "fas fa-random yearSort") {
+                        $("#column").val("study_year");
+                        $("#order").val("ASC");
+                        $("#yearIcon").val("fas fa-sort-amount-up yearSort");
+                        $("#idIcon").val("fas fa-random idSort");
+                        $("#nameIcon").val("fas fa-random nameSort");
+                    }
+                    $("#form").submit();
+                });
+
             });
         </script>    
