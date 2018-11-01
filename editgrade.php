@@ -35,9 +35,9 @@ $grades = new Grade($id, "std");
     <!-- Begin page content -->
     <main role="main" class="container">
 
-        <h2 class="mt-4"><?= ($id) ? "Edit" : "Add" ?> Grade</h2>
+        <h2 class="mt-4">Edit Grade</h2>
 
-        <form action="controllers/savegrade.php" method="post">
+        <form action="controllers/savegrade.php" method="post" id="form">
             <input type="hidden" name="id" value="<?= $grades->get('id') ?>">
             <input type="hidden" name="page" value="<?= $page ?>">
 
@@ -45,36 +45,61 @@ $grades = new Grade($id, "std");
                 <div class="card-body">
                     <div class="form-group row gutters">
 
-                        <label  for="" class="col-sm-2 col-form-label">Student Name</label>
+                        <label  for="stdinput" class="col-sm-2 col-form-label">Student Name</label>
                         <div class="col-sm-10" style="margin-bottom: 10px">
-                            <input class="form-control" type="text"  value="<?= $grades->get('std_name') ?>" disabled>
+                            <input class="form-control" id="stdinput" type="text"  value="<?= $grades->get('std_name') ?>" disabled>
                         </div>
 
-                        <label  for="" class="col-sm-2 col-form-label">Course Name</label>
+                        <label  for="crsinput" class="col-sm-2 col-form-label">Course Name</label>
                         <div class="col-sm-10" style="margin-bottom: 10px">
-                            <input class="form-control" type="text"  value="<?= $grades->get('crs_name') ?>" disabled>
+                            <input class="form-control" id="crsinput" type="text"  value="<?= $grades->get('crs_name') ?>" disabled>
                         </div>
-
-                        <label  for="" class="col-sm-2 col-form-label">Max Grade</label>
+                        <label  for="maxGradeinput" class="col-sm-2 col-form-label">Max Grade</label>
                         <div class="col-sm-10" style="margin-bottom: 10px">
-                            <input class="form-control" type="text"  value="<?= $grades->get('max_degree') ?>" disabled>
+                            <input class="form-control" id="maxGradeinput" type="text"  value="<?= $grades->get('max_degree') ?>" disabled>
                         </div>
-
-
-                        <label  for="" class="col-sm-2 col-form-label">Degree</label>
+                        <label  for="degreeinput" class="col-sm-2 col-form-label">Degree</label>
                         <div class="col-sm-10" style="margin-bottom: 10px">
-                            <input class="form-control" type="text" name="degree" value="<?= $grades->get('degree') ?>" required>
+                            <input class="form-control" id="degreeinput" type="text" name="degree" value="<?= $grades->get('degree') ?>" required>
                         </div>
-                        <label for="" class="col-sm-2 col-form-label">Examine at</label>
+                        <div class="col-sm-12">
+                            <div class="alert alert-danger col-sm-8" role="alert" style="margin-bottom: 10px; margin-left: 200px">
+                                <strong>Error!</strong> Wrong Degree Value.
+                            </div>     
+                        </div>
+                        <label for="examineAtinput" class="col-sm-2 col-form-label">Examine at</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="date" name="examine_at" value="<?= $grades->get('examine_at') ?>" required>
+                            <input class="form-control" id="examineAtinput" type="date" name="examine_at" value="<?= $grades->get('examine_at') ?>" required>
                         </div>  
                     </div>
                     <div class="form-group">
-                        <button class="button float-right" type="submit"><?= ($id) ? "Save" : "Add" ?></button>
+                        <button class="button float-right" type="button" id="save">Save</button>
                     </div>
                 </div>
             </div>
         </form>
 
         <?php include_once('./components/tail.php') ?> 
+
+        <script type="text/javascript">
+            $('.alert').hide('fast');
+            $(document).ready(function () {
+                $('#degreeinput').change(function (event) {
+                    var maxDegree = parseInt($('#maxGradeinput').val());
+                    var Degree = parseInt($('#degreeinput').val());
+                    if (Degree > maxDegree) {
+                        $('.alert').show('slow');
+                    } else {
+                        $('.alert').hide('slow');
+                    }
+                });
+
+                $('#save').click(function (event) {
+                    var maxDegree = parseInt($('#maxGradeinput').val());
+                    var Degree = parseInt($('#degreeinput').val());
+                    if (Degree <= maxDegree) {
+                        $('#form').submit();
+                    }
+                });
+            });
+        </script>
