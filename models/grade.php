@@ -74,8 +74,8 @@ class Grade extends Database {
     }
 
     public static function add($course_id, $student_id, $degree, $examine_at) {
-        $sql = "UPDATE grades SET degree = ?,examine_at = ? WHERE (course_id = ? and student_id = ?);";
-        Database::$db->prepare($sql)->execute([$degree, $examine_at, $course_id, $student_id]);
+         $sql = "INSERT INTO grade (course_id,student_id,degree,examine_at) VALUES (?,?,?,?)";
+        Database::$db->prepare($sql)->execute([$course_id,$student_id, $degree, $examine_at]);
     }
 
 }

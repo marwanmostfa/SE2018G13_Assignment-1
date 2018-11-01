@@ -143,7 +143,7 @@ Database::connect('school', 'root', '');
                 });
 
                 $('.add_grade').click(function (event) {
-                    window.location.href = "addgrade.php?id=" + $(this).attr('id');
+                    window.location.href = "addcourse.php?id=" + $(this).attr('id');
                 });
 
                 $('.delete_student').click(function () {
