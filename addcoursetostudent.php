@@ -1,3 +1,12 @@
+<script language="JavaScript">
+function toggle(source) {
+  checkboxes = document.getElementsByClassName("checkboxesmrH");
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+
+</script>
 <?php
 include_once("./controllers/common.php");
 include_once('./components/head.php');
@@ -50,6 +59,7 @@ $check_box = "checkbox" . $num;
                                     <tr id="addCourseTable_th" >
                                         <th scope="col">Course Name</th>
                                         <th scope="col">Study Year</th>
+                                         <th scope='col'> <input type="checkbox" onClick="toggle(this)" /> Toggle All<br/> </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -69,7 +79,7 @@ $check_box = "checkbox" . $num;
                                             <tr id="addCourseTable_tr">
                                                 <td>
                                                     <div class="checkbox">
-                                                        <input type="checkbox" name="<?= $check_box ?>" value="<?= $course->id ?>"> <?= $course->name ?>
+                                                        <input type="checkbox" class='checkboxesmrH' name="<?= $check_box ?>" value="<?= $course->id ?>"> <?= $course->name ?>
                                                     </div>
                                                 </td>
                                                 <td><?= $course->study_year ?></td>
