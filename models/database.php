@@ -4,6 +4,10 @@ class Database {
 
     protected static $db = null;
 
+    public static function DBConnect() {
+        Database::connect('school', 'root', '');
+    }
+
     public static function connect($database, $uid, $pwd) {
         if (!empty(Database::$db))
             return;

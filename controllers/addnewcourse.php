@@ -2,7 +2,7 @@
 
 include_once("../controllers/common.php");
 include_once("../models/grade.php");
-Database::connect('school', 'root', '');
+Database::DBConnect();
 
 $id = safeGet("student_id");
 $NumOfCheck = safeGet("number_box");

@@ -2,7 +2,7 @@
 
 header('Content-Type: application/json; charset=utf-8');
 include_once("../models/grade.php");
-Database::connect('school', 'root', '');
+Database::DBConnect();
 $page = $_GET['page'];
 
 if ($page == "std") {

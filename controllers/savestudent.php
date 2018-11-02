@@ -2,7 +2,7 @@
 
 include_once("../controllers/common.php");
 include_once("../models/student.php");
-Database::connect('school', 'root', '');
+Database::DBConnect();
 $id = safeGet("id", 0);
 if ($id == 0) {
     Student::add(safeGet("name"));

@@ -3,7 +3,7 @@
 include_once("../controllers/common.php");
 include_once("../models/Courses.php");
 
-Database::connect('school', 'root', '');
+Database::DBConnect();
 $id = safeGet("id", 0);
 if ($id == 0) {
     Courses::add(safeGet("name"), safeGet("study_year"), safeGet("max_degree"));
