@@ -66,9 +66,10 @@ $num = 0;
                                             ?> 
                                             <tr id="addCourseTable_tr">
                                                 <td>
-                                                    <div class="checkbox">
-                                                        <input type="checkbox" name="<?= $check_box ?>" value="<?= $student->id ?>"> <?= $student->name ?>
-                                                    </div>
+                                                    <label class="labelcontainer"><?= $student->name ?>
+                                                        <input type="checkbox" name="<?= $check_box ?>" value="<?= $student->id ?>">
+                                                        <span class="checkmark"></span>
+                                                    </label>
                                                 </td>
                                                 <td>  <?= $student->id ?></td>
                                             </tr>
