@@ -32,7 +32,6 @@ Database::connect('school', 'root', '');
     <!-- Begin page content -->
     <main role="main" class="container">
 
-
         <h2 class="mt-5">Courses</h2>
 
         <div>
@@ -51,21 +50,16 @@ Database::connect('school', 'root', '');
 
         <table class="table" style="margin-top: 20px">
             <thead>
-                <?php
-                $id_icon = safeGet("idIcon");
-                $name_icon = safeGet("nameIcon");
-                $year_icon = safeGet("yearIcon");
-                ?>
                 <tr id="StudentTable_th">
                     <th scope="col">Course ID
-                        <button class="button idSortbtn"><i class="<?= ($id_icon == null) ? "fas fa-sort-amount-up idSort" : $id_icon ?>"></i></button>
+                        <button class="button idSortbtn"><i class="fas fa-sort-amount-up idSort"></i></button>
                     </th>
                     <th scope="col">Course Name
-                        <button class="button nameSortbtn"><i class="<?= ($name_icon == null) ? "fas fa-random nameSort" : $name_icon ?>"></i></button>
+                        <button class="button nameSortbtn"><i class="fas fa-random nameSort"></i></button>
                     </th>
                     <th scope="col" style="padding-bottom: 18px">Max Degree</th>
                     <th scope="col">Study Year
-                        <button class="button yearSortbtn"><i class="<?= ($year_icon == null) ? "fas fa-random yearSort" : $year_icon ?>"></i></button>
+                        <button class="button yearSortbtn"><i class="fas fa-random yearSort"></i></button>
                     </th>
                     <th scope="col"  style="padding-bottom: 18px">Grade</th>
                     <th scope="col"><button class="button float-right edit_course" id="0">Add Course</button></th>
@@ -74,19 +68,21 @@ Database::connect('school', 'root', '');
             <tbody>
                 <?php
                 $courses = Courses::all(safeGet('keywords'), safeGet("column"), safeGet("order"));
+                $num = 0;
                 foreach ($courses as $Courses) {
+                    $num = $num + 1;
                     ?>
-                    <tr id="StudentTable_tr">
-                        <td><?= $Courses->id ?></td>
-                        <td><?= $Courses->name ?></td>
-                        <td><?= $Courses->max_degree ?> </td>
-                        <td><?= $Courses->study_year ?> </td>
+                    <tr id="StudentTable_tr" class="crsRow<?= $num ?>">
+                        <td class="crsID<?= $num ?>"><?= $Courses->id ?></td>
+                        <td class="crsName<?= $num ?>"><?= $Courses->name ?></td>
+                        <td class="crsMaxDegree<?= $num ?>"><?= $Courses->max_degree ?> </td>
+                        <td class="crsStudyYear<?= $num ?>"><?= $Courses->study_year ?> </td>
                         <td>
-                            <button class="button show_grade" id="<?= $Courses->id ?>">Show</button>
+                            <button class="button show_grade crsGrade<?= $num ?>" id="<?= $Courses->id ?>">Show</button>
                         </td>
                         <td>
-                            <button class="button edit_course" id="<?= $Courses->id ?>">Edit</button>&nbsp;
-                            <button class="button delete_course" id="<?= $Courses->id ?>">Delete</button>
+                            <button class="button edit_course crsEdit<?= $num ?>" id="<?= $Courses->id ?>">Edit</button>&nbsp;
+                            <button class="button delete_course crsDelete<?= $num ?>" id="<?= $Courses->id ?>">Delete</button>
                         </td>
                     </tr>
 
@@ -100,13 +96,8 @@ Database::connect('school', 'root', '');
                                         <th scope="col">Grade</th>
                                         <th scope="col">Examine Date</th>
                                         <th scope="col">
-
-
-
                                             <button class="button float-right add_student"  id="<?= $Courses->id ?>">Add student</button>
-
                                         </th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -138,14 +129,6 @@ Database::connect('school', 'root', '');
             </tbody>
         </table>
 
-        <form style="display: hidden" action="courses.php" method="POST" id="form">
-            <input type="hidden" id="column" name="column" value=""/>
-            <input type="hidden" id="order" name="order" value=""/>
-            <input type="hidden" id="idIcon" name="idIcon" value=""/>
-            <input type="hidden" id="nameIcon" name="nameIcon" value=""/>
-            <input type="hidden" id="yearIcon" name="yearIcon" value=""/>
-        </form>
-
         <?php include_once('./components/tail.php') ?>
 
         <script type="text/javascript">
@@ -160,7 +143,7 @@ Database::connect('school', 'root', '');
                 });
 
                 $('.add_student').click(function (event) {
-                    window.location.href = "addstudenttocourse.php?id=" + $(this).attr('id') ;
+                    window.location.href = "addstudenttocourse.php?id=" + $(this).attr('id');
                 });
 
                 $('.delete_course').click(function () {
@@ -205,7 +188,7 @@ Database::connect('school', 'root', '');
 
                 $('.show_grade').click(function () {
                     var anchor = $(this);
-                    $('#grade' + anchor.attr('id')).slideToggle("Fast", function () {
+                    $('#grade' + anchor.attr('id')).slideToggle("Slow", function () {
                         var status = anchor.text();
                         if (status == "Show") {
                             anchor.text("Hide");
@@ -217,79 +200,75 @@ Database::connect('school', 'root', '');
                 });
 
                 $('.idSortbtn').click(function () {
-                    var anchor = $('.idSort');
-                    var status = anchor.attr('class');
-                    if (status == "fas fa-sort-amount-down idSort") {
-                        $("#column").val("id");
-                        $("#order").val("ASC");
-                        $("#idIcon").val("fas fa-sort-amount-up idSort");
-                        $("#nameIcon").val("fas fa-random nameSort");
-                        $("#yearIcon").val("fas fa-random yearSort");
+                    var status = $('.idSort').attr('class');
+                    if (status == "fas fa-sort-amount-down idSort" || status == "fas fa-random idSort") {
+                        $('.idSort').attr("class", "fas fa-sort-amount-up idSort");
+                        $(".nameSort").attr("class", "fas fa-random nameSort");
+                        $(".yearSort").attr("class", "fas fa-random yearSort");
+                        crsViewSorted("id", "ASC");
                     } else if (status == "fas fa-sort-amount-up idSort") {
-                        $("#column").val("id");
-                        $("#order").val("DESC");
-                        $("#idIcon").val("fas fa-sort-amount-down idSort");
-                        $("#nameIcon").val("fas fa-random nameSort");
-                        $("#yearIcon").val("fas fa-random yearSort");
-                    } else if (status == "fas fa-random idSort") {
-                        $("#column").val("id");
-                        $("#order").val("ASC");
-                        $("#idIcon").val("fas fa-sort-amount-up idSort");
-                        $("#nameIcon").val("fas fa-random nameSort");
-                        $("#yearIcon").val("fas fa-random yearSort");
+                        $('.idSort').attr("class", "fas fa-sort-amount-down idSort");
+                        $(".nameSort").attr("class", "fas fa-random nameSort");
+                        $(".yearSort").attr("class", "fas fa-random yearSort");
+                        crsViewSorted("id", "DESC");
                     }
-                    $("#form").submit();
                 });
 
                 $('.nameSortbtn').click(function () {
-                    var anchor = $('.nameSort');
-                    var status = anchor.attr('class');
-                    if (status == "fas fa-sort-amount-down nameSort") {
-                        $("#column").val("name");
-                        $("#order").val("ASC");
-                        $("#nameIcon").val("fas fa-sort-amount-up nameSort");
-                        $("#idIcon").val("fas fa-random idSort");
-                        $("#yearIcon").val("fas fa-random yearSort");
+                    var status = $('.nameSort').attr('class');
+                    if (status == "fas fa-sort-amount-down nameSort" || status == "fas fa-random nameSort") {
+                        $('.nameSort').attr("class", "fas fa-sort-amount-up nameSort");
+                        $(".idSort").attr("class", "fas fa-random idSort");
+                        $(".yearSort").attr("class", "fas fa-random yearSort");
+                        crsViewSorted("name", "ASC");
                     } else if (status == "fas fa-sort-amount-up nameSort") {
-                        $("#column").val("name");
-                        $("#order").val("DESC");
-                        $("#nameIcon").val("fas fa-sort-amount-down nameSort");
-                        $("#idIcon").val("fas fa-random idSort");
-                        $("#yearIcon").val("fas fa-random yearSort");
-                    } else if (status == "fas fa-random nameSort") {
-                        $("#column").val("name");
-                        $("#order").val("ASC");
-                        $("#nameIcon").val("fas fa-sort-amount-up nameSort");
-                        $("#idIcon").val("fas fa-random idSort");
-                        $("#yearIcon").val("fas fa-random yearSort");
+                        $('.nameSort').attr("class", "fas fa-sort-amount-down nameSort");
+                        $(".idSort").attr("class", "fas fa-random idSort");
+                        $(".yearSort").attr("class", "fas fa-random yearSort");
+                        crsViewSorted("name", "DESC");
                     }
-                    $("#form").submit();
                 });
 
                 $('.yearSortbtn').click(function () {
-                    var anchor = $('.yearSort');
-                    var status = anchor.attr('class');
-                    if (status == "fas fa-sort-amount-down yearSort") {
-                        $("#column").val("study_year");
-                        $("#order").val("ASC");
-                        $("#yearIcon").val("fas fa-sort-amount-up yearSort");
-                        $("#idIcon").val("fas fa-random idSort");
-                        $("#nameIcon").val("fas fa-random nameSort");
+                    var status = $('.yearSort').attr('class');
+                    if (status == "fas fa-sort-amount-down yearSort" || status == "fas fa-random yearSort") {
+                        $('.yearSort').attr("class", "fas fa-sort-amount-up yearSort");
+                        $(".idSort").attr("class", "fas fa-random idSort");
+                        $(".nameSort").attr("class", "fas fa-random nameSort");
+                        crsViewSorted("study_year", "ASC");
                     } else if (status == "fas fa-sort-amount-up yearSort") {
-                        $("#column").val("study_year");
-                        $("#order").val("DESC");
-                        $("#yearIcon").val("fas fa-sort-amount-down yearSort");
-                        $("#idIcon").val("fas fa-random idSort");
-                        $("#nameIcon").val("fas fa-random nameSort");
-                    } else if (status == "fas fa-random yearSort") {
-                        $("#column").val("study_year");
-                        $("#order").val("ASC");
-                        $("#yearIcon").val("fas fa-sort-amount-up yearSort");
-                        $("#idIcon").val("fas fa-random idSort");
-                        $("#nameIcon").val("fas fa-random nameSort");
+                        $('.yearSort').attr("class", "fas fa-sort-amount-down yearSort");
+                        $(".idSort").attr("class", "fas fa-random idSort");
+                        $(".nameSort").attr("class", "fas fa-random nameSort");
+                        crsViewSorted("study_year", "DESC");
                     }
-                    $("#form").submit();
                 });
 
             });
+
+            function crsViewSorted($col, $ord) {
+                $.ajax({
+                    url: './controllers/coursesort.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {keyword: $("#SearchBox").val(), column: $col, order: $ord},
+                })
+                        .done(function (response) {
+                            var num = 0;
+                            response.forEach(function (obj) {
+                                num = num + 1;
+                                $(".crsID" + num).text(obj.id);
+                                $(".crsName" + num).text(obj.name);
+                                $(".crsMaxDegree" + num).text(obj.max_degree);
+                                $(".crsStudyYear" + num).text(obj.study_year);
+                                $(".crsGrade" + num).attr("id", obj.id);
+                                $(".crsEdit" + num).attr("id", obj.id);
+                                $(".crsDelete" + num).attr("id", obj.id);
+                                $(".crsRow" + num).after($("#grade" + obj.id))
+                            })
+                        })
+                        .fail(function () {
+                            alert("Connection error.");
+                        })
+            }
         </script>    

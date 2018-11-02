@@ -49,10 +49,10 @@ Database::connect('school', 'root', '');
             <thead>
                 <tr id="StudentTable_th">
                     <th scope="col">Student ID
-                        <button class="button idSortbtn" var="<?= safeGet('keywords') ?>"><i class="fas fa-sort-amount-up idSort"></i></button>
+                        <button class="button idSortbtn"><i class="fas fa-sort-amount-up idSort"></i></button>
                     </th>
                     <th scope="col">Student Name
-                        <button class="button nameSortbtn" var="<?= safeGet('keywords') ?>"><i class="fas fa-random nameSort"></i></button>
+                        <button class="button nameSortbtn"><i class="fas fa-random nameSort"></i></button>
                     </th>
                     <th scope="col"  style="padding-bottom: 18px">Grade</th>
                     <th scope="col"><button class="button float-right edit_student" id="0">Add Student</button></th>
@@ -65,7 +65,7 @@ Database::connect('school', 'root', '');
                 foreach ($students as $student) {
                     $num = $num + 1;
                     ?>
-                    <tr id="StudentTable_tr">
+                    <tr id="StudentTable_tr" class="stdRow<?= $num ?>">
                         <td class="stdID<?= $num ?>"><?= $student->id ?></td>
                         <td class="stdName<?= $num ?>"><?= $student->name ?></td>
                         <td>
@@ -132,13 +132,6 @@ Database::connect('school', 'root', '');
             </tbody>
         </table>
 
-        <form style="display: hidden" action="students.php" method="POST" id="form">
-            <input type="hidden" id="column" name="column" value=""/>
-            <input type="hidden" id="order" name="order" value=""/>
-            <input type="hidden" id="idIcon" name="idIcon" value=""/>
-            <input type="hidden" id="nameIcon" name="nameIcon" value=""/>
-        </form>
-
         <?php include_once('./components/tail.php') ?>
 
         <script type="text/javascript">
@@ -152,7 +145,7 @@ Database::connect('school', 'root', '');
                 });
 
                 $('.add_Courses').click(function (event) {
-                    window.location.href = "addcourse.php?id=" + $(this).attr('id');
+                    window.location.href = "addcoursetostudent.php?id=" + $(this).attr('id');
                 });
 
                 $('.delete_student').click(function () {
@@ -197,7 +190,7 @@ Database::connect('school', 'root', '');
 
                 $('.show_grade').click(function () {
                     var anchor = $(this);
-                    $('#grade' + anchor.attr('id')).slideToggle("Fast", function () {
+                    $('#grade' + anchor.attr('id')).slideToggle("Slow", function () {
                         var status = anchor.text();
                         if (status == "Show") {
                             anchor.text("Hide");
@@ -209,157 +202,53 @@ Database::connect('school', 'root', '');
                 });
 
                 $('.idSortbtn').click(function () {
-                    var anchor = $('.idSort');
-                    var status = anchor.attr('class');
+                    var status = $('.idSort').attr('class');
                     if (status == "fas fa-sort-amount-down idSort" || status == "fas fa-random idSort") {
-                        anchor.attr("class", "fas fa-sort-amount-up idSort");
+                        $('.idSort').attr("class", "fas fa-sort-amount-up idSort");
                         $(".nameSort").attr("class", "fas fa-random nameSort");
-                        $.ajax({
-                            url: './controllers/studentsort.php',
-                            type: 'GET',
-                            dataType: 'json',
-                            data: {keyword: $(this).attr('var'), column: "id", order: "ASC"},
-                        })
-                                .done(function (response) {
-                                    var num = 0;
-                                    response.forEach(function (obj) {
-                                        num = num + 1;
-                                        $(".stdID" + num).text(obj.id);
-                                        $(".stdName" + num).text(obj.name);
-                                        $(".stdGrade" + num).attr("id", obj.id);
-                                        $(".stdEdit" + num).attr("id", obj.id);
-                                        $(".stdDelete" + num).attr("id", obj.id);
-
-                                    })
-                                })
-                                .fail(function () {
-                                    alert("Connection error.");
-                                })
+                        stdViewSort("id", "ASC");
                     } else if (status == "fas fa-sort-amount-up idSort") {
-                        anchor.attr('class', "fas fa-sort-amount-down idSort");
+                        $('.idSort').attr('class', "fas fa-sort-amount-down idSort");
                         $(".nameSort").attr("class", "fas fa-random nameSort");
-                        $.ajax({
-                            url: './controllers/studentsort.php',
-                            type: 'GET',
-                            dataType: 'json',
-                            data: {keyword: $(this).attr('var'), column: "id", order: "DESC"},
-                        })
-                                .done(function (response) {
-                                    var num = 0;
-                                    response.forEach(function (obj) {
-                                        num = num + 1;
-                                        $(".stdID" + num).text(obj.id);
-                                        $(".stdName" + num).text(obj.name);
-                                        $(".stdGrade" + num).attr("id", obj.id);
-                                        $(".stdEdit" + num).attr("id", obj.id);
-                                        $(".stdDelete" + num).attr("id", obj.id);
-
-                                    })
-                                })
-                                .fail(function () {
-                                    alert("Connection error.");
-                                })
+                        stdViewSort("id", "DESC");
                     }
-
-
-
-                    /*     var anchor = $('.idSort');
-                     var status = anchor.attr('class');
-                     if (status == "fas fa-sort-amount-down idSort") {
-                     $("#column").val("id");
-                     $("#order").val("ASC");
-                     $("#idIcon").val("fas fa-sort-amount-up idSort");
-                     $("#nameIcon").val("fas fa-random nameSort");
-                     } else if (status == "fas fa-sort-amount-up idSort") {
-                     $("#column").val("id");
-                     $("#order").val("DESC");
-                     $("#idIcon").val("fas fa-sort-amount-down idSort");
-                     $("#nameIcon").val("fas fa-random nameSort");
-                     } else if (status == "fas fa-random idSort") {
-                     $("#column").val("id");
-                     $("#order").val("ASC");
-                     $("#idIcon").val("fas fa-sort-amount-up idSort");
-                     $("#nameIcon").val("fas fa-random nameSort");
-                     }
-                     $("#form").submit();*/
                 });
 
                 $('.nameSortbtn').click(function () {
-
-                    var anchor = $('.nameSort');
-                    var status = anchor.attr('class');
+                    var status = $('.nameSort').attr('class');
                     if (status == "fas fa-sort-amount-down nameSort" || status == "fas fa-random nameSort") {
-                        anchor.attr("class", "fas fa-sort-amount-up nameSort");
+                        $('.nameSort').attr("class", "fas fa-sort-amount-up nameSort");
                         $(".idSort").attr("class", "fas fa-random idSort");
-                        $.ajax({
-                            url: './controllers/studentsort.php',
-                            type: 'GET',
-                            dataType: 'json',
-                            data: {keyword: $(this).attr('var'), column: "name", order: "ASC"},
-                        })
-                                .done(function (response) {
-                                    var num = 0;
-                                    response.forEach(function (obj) {
-                                        num = num + 1;
-                                        $(".stdID" + num).text(obj.id);
-                                        $(".stdName" + num).text(obj.name);
-                                        $(".stdGrade" + num).attr("id", obj.id);
-                                        $(".stdEdit" + num).attr("id", obj.id);
-                                        $(".stdDelete" + num).attr("id", obj.id);
-
-                                    })
-                                })
-                                .fail(function () {
-                                    alert("Connection error.");
-                                })
+                        stdViewSort("name", "ASC");
                     } else if (status == "fas fa-sort-amount-up nameSort") {
-                        anchor.attr('class', "fas fa-sort-amount-down nameSort");
+                        $('.nameSort').attr('class', "fas fa-sort-amount-down nameSort");
                         $(".idSort").attr("class", "fas fa-random idSort");
-                        $.ajax({
-                            url: './controllers/studentsort.php',
-                            type: 'GET',
-                            dataType: 'json',
-                            data: {keyword: $(this).attr('var'), column: "name", order: "DESC"},
-                        })
-                                .done(function (response) {
-                                    var num = 0;
-                                    response.forEach(function (obj) {
-                                        num = num + 1;
-                                        $(".stdID" + num).text(obj.id);
-                                        $(".stdName" + num).text(obj.name);
-                                        $(".stdGrade" + num).attr("id", obj.id);
-                                        $(".stdEdit" + num).attr("id", obj.id);
-                                        $(".stdDelete" + num).attr("id", obj.id);
-
-                                    })
-                                })
-                                .fail(function () {
-                                    alert("Connection error.");
-                                })
+                        stdViewSort("name", "DESC");
                     }
-
-
-
-                    /* var anchor = $('.nameSort');
-                     var status = anchor.attr('class');
-                     if (status == "fas fa-sort-amount-down nameSort") {
-                     $("#column").val("name");
-                     $("#order").val("ASC");
-                     $("#nameIcon").val("fas fa-sort-amount-up nameSort");
-                     $("#idIcon").val("fas fa-random idSort");
-                     } else if (status == "fas fa-sort-amount-up nameSort") {
-                     $("#column").val("name");
-                     $("#order").val("DESC");
-                     $("#nameIcon").val("fas fa-sort-amount-down nameSort");
-                     $("#idIcon").val("fas fa-random idSort");
-                     } else if (status == "fas fa-random nameSort") {
-                     $("#column").val("name");
-                     $("#order").val("ASC");
-                     $("#nameIcon").val("fas fa-sort-amount-up nameSort");
-                     $("#idIcon").val("fas fa-random idSort");
-                     }
-                     $("#form").submit();*/
                 });
+            });
+
+            function stdViewSort($col, $ord) {
+                $.ajax({
+                    url: './controllers/studentsort.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {keyword: $("#SearchBox").val(), column: $col, order: $ord},
+                })
+                        .done(function (response) {
+                            var num = 0;
+                            response.forEach(function (obj) {
+                                num = num + 1;
+                                $(".stdID" + num).text(obj.id);
+                                $(".stdName" + num).text(obj.name);
+                                $(".stdGrade" + num).attr("id", obj.id);
+                                $(".stdEdit" + num).attr("id", obj.id);
+                                $(".stdDelete" + num).attr("id", obj.id);
+                                $(".stdRow" + num).after($("#grade" + obj.id))
+                            })
+                        })
+                        .fail(function () {
+                            alert("Connection error.");
+                        })
             }
-            );
         </script>
