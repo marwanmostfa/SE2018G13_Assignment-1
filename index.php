@@ -28,6 +28,27 @@
     <main role="main" class="container">
 
         <h1 class="mt-5">School Information System</h1>
-        <p class="lead">Manage school information like students, course and grades</code>.</p>
+        <p class="lead" style="padding-bottom: 25px">Manage school information like students, course and grades.</p>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card-box">
+                        <div class="card-title">
+                            <h2>Team Members (G13)</h2>
+                            <ul>
+                                <li>Ibrahim Amr</li>
+                                <li>Ahmed Hessuin</li>
+                                <li>Ahmed Osama</li>
+                                <li>Ahmed Saeid</li>
+                                <li>Eslam Tarek</li>
+                                <li>Marwan Mostafa</li>
+                                <li>Mohammed Adel</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <?php include_once('./components/tail.php') ?>
