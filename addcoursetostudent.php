@@ -7,7 +7,7 @@ include_once('./models/grade.php');
 Database::DBConnect();
 $id = safeGet('id');
 $grades = (Grade::std_all($id, NULL, NULL));
-$courses = Courses::all(safeGet('keywords'), null, null);
+$courses = Courses::all(NULL, null, null);
 $num = 0;
 $check_box = "checkbox" . $num;
 ?>

@@ -60,7 +60,7 @@ Database::DBConnect();
             </thead>
             <tbody>
                 <?php
-                $students = Student::all(safeGet('keywords'), safeGet("column"), safeGet("order"));
+                $students = Student::all(safeGet('keywords'), NULL, NULL);
                 $num = 0;
                 foreach ($students as $student) {
                     $num = $num + 1;

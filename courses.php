@@ -67,7 +67,7 @@ Database::DBConnect();
             </thead>
             <tbody>
                 <?php
-                $courses = Courses::all(safeGet('keywords'), safeGet("column"), safeGet("order"));
+                $courses = Courses::all(safeGet('keywords'), NULL, NULL);
                 $num = 0;
                 foreach ($courses as $Courses) {
                     $num = $num + 1;

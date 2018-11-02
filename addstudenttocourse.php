@@ -1,12 +1,12 @@
 <?php
 include_once('./controllers/common.php');
 include_once('./components/head.php');
-include_once('./models/Student.php');
+include_once('./models/student.php');
 include_once('./models/Courses.php');
 include_once('./models/grade.php');
 Database::DBConnect();
 $id = safeGet('id'); // course id
-$students = Student::all(safeGet('keywords'), null, null);
+$stds = Student::all(NULL, NULL, NULL);
 $grades = Grade::crs_all($id, NULL, NULL);
 $num = 0;
 ?>
@@ -15,7 +15,7 @@ $num = 0;
     <header>
         <!-- Fixed navbar -->
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="./index.php"> <i class="fas fa-user-graduate"></i> SIS</a>
+           <a class="navbar-brand" href="./index.php"> <i class="fas fa-user-graduate"></i> SIS</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -57,7 +57,7 @@ $num = 0;
                                 </thead>
                                 <tbody>
                                     <?php
-                                    foreach ($students as $student) {
+                                    foreach ($stds as $student) {
                                         $flag = TRUE;
                                         foreach ($grades as $grade) {
                                             if ($student->id == $grade->student_id) {
