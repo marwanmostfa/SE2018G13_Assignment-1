@@ -80,47 +80,39 @@ Database::connect('school', 'root', '');
                         <td colspan="4">
                             <table class="table">
                                 <thead>
-                                    <?php
-                                    $crs_id = safeGet("crsIDIcon");
-                                    $crs_name = safeGet("crsNameIcon");
-                                    $grade = safeGet("gradeIcon");
-                                    $examineat = safeGet("examineatIcon");
-                                    ?>
                                     <tr id="GardeTable_th">
                                         <th scope="col">Course ID
-                                            <button class="button crsIDSortbtn"><i class="<?= ($crs_id == null) ? "fas fa-sort-amount-up crsIDSort" : $crs_id ?>"></i></button>
+                                            <button class="button crsIDSortbtn" stdID="<?= $student->id ?>"><i class="fas fa-sort-amount-up <?= $student->id ?>crsIDSort"></i></button>
                                         </th>
                                         <th scope="col">Course Name
-                                            <button class="button crsNameSortbtn"><i class="<?= ($crs_name == null) ? "fas fa-sort-amount-up crsNameSort" : $crs_name ?>"></i></button>
+                                            <button class="button crsNameSortbtn" stdID="<?= $student->id ?>"><i class="fas fa-random <?= $student->id ?>crsNameSort"></i></button>
                                         </th>
                                         <th scope="col">Grade
-                                            <button class="button gradeSortbtn"><i class="<?= ($grade == null) ? "fas fa-sort-amount-up gradeSort" : $grade ?>"></i></button>
+                                            <button class="button gradeSortbtn" stdID="<?= $student->id ?>"><i class="fas fa-random <?= $student->id ?>gradeSort"></i></button>
                                         </th>
                                         <th scope="col">Max Grade</th>
                                         <th scope="col">Examine Date
-                                            <button class="button examineatSortbtn"><i class="<?= ($examineat == null) ? "fas fa-sort-amount-up examineatSort" : $examineat ?>"></i></button>
+                                            <button class="button examineatSortbtn" stdID="<?= $student->id ?>"><i class="fas fa-random <?= $student->id ?>examineatSort"></i></button>
                                         </th>
                                         <th scope="col"><button class="button float-right add_Courses" id="<?= $student->id ?>">Add Courses</button></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $grades = Grade::std_all($student->id);
+                                    $grades = Grade::std_all($student->id, NULL, NULL);
+                                    $gradenum = 0;
                                     foreach ($grades as $grade) {
+                                        $gradenum = $gradenum + 1;
                                         ?>
                                         <tr id="GardeTable_tr">
-                                            <td><?= $grade->course_id ?></td>
-                                            <td><?= $grade->crs_name ?></td>
-                                            <td style= "<?php if ($grade->degree > (0.3 * $grade->max_degree)) { ?>
-                                                    color: #008000;
-                                                <?php } else { ?>
-                                                    color: #FF0000;
-                                                <?php } ?>"><?= $grade->degree ?></td>
-                                            <td><?= $grade->max_degree ?></td>
-                                            <td><?= $grade->examine_at ?></td>
+                                            <td class="<?= $student->id ?>gradeCrsID<?= $gradenum ?>"><?= $grade->course_id ?></td>
+                                            <td class="<?= $student->id ?>gradeCrsName<?= $gradenum ?>"><?= $grade->crs_name ?></td>
+                                            <td class="<?= $student->id ?>gradeDegree<?= $gradenum ?>"><?= $grade->degree ?></td>
+                                            <td class="<?= $student->id ?>gradeMaxDegree<?= $gradenum ?>"><?= $grade->max_degree ?></td>
+                                            <td class="<?= $student->id ?>gradeExamineAt<?= $gradenum ?>"><?= $grade->examine_at ?></td>
                                             <td>
-                                                <button class="button edit_grade"  id="<?= $grade->id ?>">Edit</button>&nbsp;
-                                                <button class="button delete_grade" id="<?= $grade->id ?>">Delete</button>
+                                                <button class="button edit_grade <?= $student->id ?>gradeEdit<?= $gradenum ?>"  id="<?= $grade->id ?>">Edit</button>&nbsp;
+                                                <button class="button delete_grade <?= $student->id ?>gradeDelete<?= $gradenum ?>" id="<?= $grade->id ?>">Delete</button>
                                             </td>
                                         </tr>
                                     <?php } ?>
@@ -226,6 +218,79 @@ Database::connect('school', 'root', '');
                         stdViewSort("name", "DESC");
                     }
                 });
+
+                $('.crsIDSortbtn').click(function () {
+                    var stdID = $(this).attr('stdID');
+                    var status = $("." + stdID + "crsIDSort").attr('class');
+                    if (status == "fas fa-sort-amount-down " + stdID + "crsIDSort" || status == "fas fa-random " + stdID + "crsIDSort") {
+                        $("." + stdID + "crsIDSort").attr("class", "fas fa-sort-amount-up " + stdID + "crsIDSort");
+                        $("." + stdID + "crsNameSort").attr("class", "fas fa-random " + stdID + "crsNameSort");
+                        $("." + stdID + "gradeSort").attr("class", "fas fa-random " + stdID + "gradeSort");
+                        $("." + stdID + "examineatSort").attr("class", "fas fa-random " + stdID + "examineatSort");
+                        gradeViewSort(stdID, "course_id", "ASC");
+                    } else if (status == "fas fa-sort-amount-up " + stdID + "crsIDSort") {
+                        $("." + stdID + "crsIDSort").attr('class', "fas fa-sort-amount-down " + stdID + "crsIDSort");
+                        $("." + stdID + "crsNameSort").attr("class", "fas fa-random " + stdID + "crsNameSort");
+                        $("." + stdID + "gradeSort").attr("class", "fas fa-random " + stdID + "gradeSort");
+                        $("." + stdID + "examineatSort").attr("class", "fas fa-random " + stdID + "examineatSort");
+                        gradeViewSort(stdID, "course_id", "DESC");
+                    }
+                });
+
+                $('.crsNameSortbtn').click(function () {
+                    var stdID = $(this).attr('stdID');
+                    var status = $("." + stdID + "crsNameSort").attr('class');
+                    if (status == "fas fa-sort-amount-down " + stdID + "crsNameSort" || status == "fas fa-random " + stdID + "crsNameSort") {
+                        $("." + stdID + "crsNameSort").attr("class", "fas fa-sort-amount-up " + stdID + "crsNameSort");
+                        $("." + stdID + "crsIDSort").attr("class", "fas fa-random " + stdID + "crsIDSort");
+                        $("." + stdID + "gradeSort").attr("class", "fas fa-random " + stdID + "gradeSort");
+                        $("." + stdID + "examineatSort").attr("class", "fas fa-random " + stdID + "examineatSort");
+                        gradeViewSort(stdID, "crs_name", "ASC");
+                    } else if (status == "fas fa-sort-amount-up " + stdID + "crsNameSort") {
+                        $("." + stdID + "crsNameSort").attr('class', "fas fa-sort-amount-down " + stdID + "crsNameSort");
+                        $("." + stdID + "crsIDSort").attr("class", "fas fa-random " + stdID + "crsIDSort");
+                        $("." + stdID + "gradeSort").attr("class", "fas fa-random " + stdID + "gradeSort");
+                        $("." + stdID + "examineatSort").attr("class", "fas fa-random " + stdID + "examineatSort");
+                        gradeViewSort(stdID, "crs_name", "DESC");
+                    }
+                });
+
+                $('.gradeSortbtn').click(function () {
+                    var stdID = $(this).attr('stdID');
+                    var status = $("." + stdID + "gradeSort").attr('class');
+                    if (status == "fas fa-sort-amount-down " + stdID + "gradeSort" || status == "fas fa-random " + stdID + "gradeSort") {
+                        $("." + stdID + "gradeSort").attr("class", "fas fa-sort-amount-up " + stdID + "gradeSort");
+                        $("." + stdID + "crsIDSort").attr("class", "fas fa-random " + stdID + "crsIDSort");
+                        $("." + stdID + "crsNameSort").attr("class", "fas fa-random " + stdID + "crsNameSort");
+                        $("." + stdID + "examineatSort").attr("class", "fas fa-random " + stdID + "examineatSort");
+                        gradeViewSort(stdID, "degree", "ASC");
+                    } else if (status == "fas fa-sort-amount-up " + stdID + "gradeSort") {
+                        $("." + stdID + "gradeSort").attr('class', "fas fa-sort-amount-down " + stdID + "gradeSort");
+                        $("." + stdID + "crsIDSort").attr("class", "fas fa-random " + stdID + "crsIDSort");
+                        $("." + stdID + "crsNameSort").attr("class", "fas fa-random " + stdID + "crsNameSort");
+                        $("." + stdID + "examineatSort").attr("class", "fas fa-random " + stdID + "examineatSort");
+                        gradeViewSort(stdID, "degree", "DESC");
+                    }
+                });
+
+                $('.examineatSortbtn').click(function () {
+                    var stdID = $(this).attr('stdID');
+                    var status = $("." + stdID + "examineatSort").attr('class');
+                    if (status == "fas fa-sort-amount-down " + stdID + "examineatSort" || status == "fas fa-random " + stdID + "examineatSort") {
+                        $("." + stdID + "examineatSort").attr("class", "fas fa-sort-amount-up " + stdID + "examineatSort");
+                        $("." + stdID + "crsIDSort").attr("class", "fas fa-random " + stdID + "crsIDSort");
+                        $("." + stdID + "crsNameSort").attr("class", "fas fa-random " + stdID + "crsNameSort");
+                        $("." + stdID + "gradeSort").attr("class", "fas fa-random " + stdID + "gradeSort");
+                        gradeViewSort(stdID, "examine_at", "ASC");
+                    } else if (status == "fas fa-sort-amount-up " + stdID + "examineatSort") {
+                        $("." + stdID + "examineatSort").attr('class', "fas fa-sort-amount-down " + stdID + "examineatSort");
+                        $("." + stdID + "crsIDSort").attr("class", "fas fa-random " + stdID + "crsIDSort");
+                        $("." + stdID + "crsNameSort").attr("class", "fas fa-random " + stdID + "crsNameSort");
+                        $("." + stdID + "gradeSort").attr("class", "fas fa-random " + stdID + "gradeSort");
+                        gradeViewSort(stdID, "examine_at", "DESC");
+                    }
+                });
+
             });
 
             function stdViewSort($col, $ord) {
@@ -257,27 +322,29 @@ Database::connect('school', 'root', '');
                         })
             }
 
-            /*  function gradeViewSort($col, $ord) {
-             $.ajax({
-             url: './controllers/gradesort.php',
-             type: 'GET',
-             dataType: 'json',
-             data: {column: $col, order: $ord, page: "std"},
-             })
-             .done(function (response) {
-             var num = 0;
-             response.forEach(function (obj) {
-             num = num + 1;
-             $(".stdID" + num).text(obj.id);
-             $(".stdName" + num).text(obj.name);
-             $(".stdGrade" + num).attr("id", obj.id);
-             $(".stdEdit" + num).attr("id", obj.id);
-             $(".stdDelete" + num).attr("id", obj.id);
-             $(".stdRow" + num).after($("#grade" + obj.id))
-             })
-             })
-             .fail(function () {
-             alert("Connection error.");
-             })
-             }*/
+            function gradeViewSort($ID, $col, $ord) {
+                var stdID = $ID;
+                $.ajax({
+                    url: './controllers/gradesort.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {column: $col, order: $ord, page: "std", ID: stdID},
+                })
+                        .done(function (response) {
+                            var num = 0;
+                            response.forEach(function (obj) {
+                                num = num + 1;
+                                $("." + stdID + "gradeCrsID" + num).text(obj.course_id);
+                                $("." + stdID + "gradeCrsName" + num).text(obj.crs_name);
+                                $("." + stdID + "gradeDegree" + num).text(obj.degree);
+                                $("." + stdID + "gradeMaxDegree" + num).text(obj.max_degree);
+                                $("." + stdID + "gradeExamineAt" + num).text(obj.examine_at);
+                                $("." + stdID + "gradeEdit" + num).attr("id", obj.id);
+                                $("." + stdID + "gradeDelete" + num).attr("id", obj.id);
+                            })
+                        })
+                        .fail(function () {
+                            alert("Connection error.");
+                        })
+            }
         </script>

@@ -7,7 +7,7 @@ include_once('./models/grade.php');
 Database::connect('school', 'root', '');
 $id = safeGet('id'); // course id
 $students = Student::all(safeGet('keywords'), null, null);
-$grades = Grade::crs_all($id);
+$grades = Grade::crs_all($id, NULL, NULL);
 $num = 0;
 ?>
 

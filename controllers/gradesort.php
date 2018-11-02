@@ -6,7 +6,10 @@ Database::connect('school', 'root', '');
 $page = $_GET['page'];
 
 if ($page == "std") {
-    $student = Student::all($_GET['keyword'], $_GET['column'], $_GET['order']);
+    $grades = Grade::std_all($_GET['ID'], $_GET['column'], $_GET['order']);
+} else if ($page == "crs") {
+    $grades = Grade::crs_all($_GET['ID'], $_GET['column'], $_GET['order']);
 }
-echo json_encode($student);
+
+echo json_encode($grades);
 ?>

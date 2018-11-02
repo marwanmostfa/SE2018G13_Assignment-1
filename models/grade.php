@@ -6,7 +6,7 @@ class Grade extends Database {
 
     function __construct($id, $src) {
         if ($src == "std") {
-            $sql = "SELECT G.*,C.id as crs_id,C.name as crs_name,C.max_degree,S.name as std_name FROM grades as G join courses as C on (G.course_id = C.id) join students as S on (G.student_id = S.id) WHERE G.id = ('$id');";
+            $sql = "SELECT G.*,C.name as crs_name,C.max_degree,S.name as std_name FROM grades as G join courses as C on (G.course_id = C.id) join students as S on (G.student_id = S.id) WHERE G.id = ('$id');";
             $statement = Database::$db->prepare($sql);
             $statement->execute();
             $data = $statement->fetch(PDO::FETCH_ASSOC);
@@ -40,14 +40,14 @@ class Grade extends Database {
         Database::$db->prepare($sql)->execute([$this->degree, $this->examine_at, $this->id]);
     }
 
-    public static function std_all($id) {
-        /* if ($cloumn == null) {
-          $cloumn = "id";
-          }
-          if ($order == null) {
-          $order = "ASC";
-          } */
-        $sql = "SELECT * FROM grades WHERE student_id = ('$id');";
+    public static function std_all($id, $cloumn, $order) {
+        if ($cloumn == null) {
+            $cloumn = "course_id";
+        }
+        if ($order == null) {
+            $order = "ASC";
+        }
+        $sql = "SELECT G.*,C.name as crs_name,C.max_degree FROM grades as G join courses as C on (G.course_id = C.id) WHERE G.student_id = ('$id') ORDER BY $cloumn $order;";
         $statement = Database::$db->prepare($sql);
         $statement->execute();
         $grades = [];
@@ -57,8 +57,14 @@ class Grade extends Database {
         return $grades;
     }
 
-    public static function crs_all($id) {
-        $sql = "SELECT * FROM grades WHERE course_id = ('$id');";
+    public static function crs_all($id, $cloumn, $order) {
+        if ($cloumn == null) {
+            $cloumn = "student_id";
+        }
+        if ($order == null) {
+            $order = "ASC";
+        }
+        $sql = "SELECT G.*,S.name as std_name FROM grades as G join students as S on (G.student_id = S.id) WHERE G.course_id = ('$id') ORDER BY $cloumn $order;";
         $statement = Database::$db->prepare($sql);
         $statement->execute();
         $grades = [];
