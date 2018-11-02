@@ -99,7 +99,14 @@ Database::connect('school', 'root', '');
                                         <th scope="col">Student Name</th>
                                         <th scope="col">Grade</th>
                                         <th scope="col">Examine Date</th>
-                                        <th scope="col"><button class="button float-right" id="0">Add Grade</button></th>
+                                        <th scope="col">
+
+
+
+                                            <button class="button float-right add_student"  id="<?= $Courses->id ?>">Add student</button>
+
+                                        </th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -150,6 +157,10 @@ Database::connect('school', 'root', '');
 
                 $('.edit_grade').click(function (event) {
                     window.location.href = "editgrade.php?id=" + $(this).attr('id') + "&page=crs";
+                });
+
+                $('.add_student').click(function (event) {
+                    window.location.href = "addstudenttocourse.php?id=" + $(this).attr('id') ;
                 });
 
                 $('.delete_course').click(function () {

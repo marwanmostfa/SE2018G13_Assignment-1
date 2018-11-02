@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 include_once("../controllers/common.php");
 include_once("../models/grade.php");
