@@ -14,7 +14,7 @@ for ($i; $i < $NumOfCheck; $i = $i + 1) {
     $check_box = "checkbox" . $num;
     $checkdata = safeGet($check_box);
     if ($checkdata != null) {
-        Grade::add($checkdata, $id, null, null);
+        Grade::add($checkdata, $id);
     }
 }
 header('Location: ../students.php');

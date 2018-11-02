@@ -2,10 +2,10 @@
 include_once("./controllers/common.php");
 include_once('./components/head.php');
 include_once('./models/student.php');
-include_once('./models/grade.php');
 include_once('./models/Courses.php');
-$id = safeGet('id');
+include_once('./models/grade.php');
 Database::connect('school', 'root', '');
+$id = safeGet('id');
 $grades = (Grade::std_all($id, 'std'));
 $courses = Courses::all(safeGet('keywords'), null, null);
 $num = 0;
@@ -37,7 +37,7 @@ $check_box = "checkbox" . $num;
     </header>
     <!-- Begin page content -->
     <main role="main" class="container">
-        <h2 class="mt-5">Edit Student Courses</h2>
+        <h2 class="mt-5">Add Courses to Student</h2>
         <form action="controllers/addnewcourse.php" method="post" >
             <input type="hidden" name="student_id" value="<?= $id ?>">
 
@@ -81,8 +81,6 @@ $check_box = "checkbox" . $num;
                                 </tbody>
                             </table>
                         </div>
-                        <?php
-                        ?>
                         <div class="form-group col-sm-12">
                             <button class="button float-right" type="submit" name="number_box" value="<?= $num ?>" >Add</button>
                         </div>
