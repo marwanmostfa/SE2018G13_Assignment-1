@@ -41,6 +41,12 @@ class Grade extends Database {
     }
 
     public static function std_all($id) {
+        /* if ($cloumn == null) {
+          $cloumn = "id";
+          }
+          if ($order == null) {
+          $order = "ASC";
+          } */
         $sql = "SELECT * FROM grades WHERE student_id = ('$id');";
         $statement = Database::$db->prepare($sql);
         $statement->execute();
@@ -77,6 +83,7 @@ class Grade extends Database {
         $sql = "INSERT INTO grades (course_id,student_id,degree,examine_at) VALUES (?,?,NULL,NULL)";
         Database::$db->prepare($sql)->execute([$course_id, $student_id]);
     }
+
 }
 
 ?>

@@ -264,6 +264,11 @@ Database::connect('school', 'root', '');
                                 $(".crsGrade" + num).attr("id", obj.id);
                                 $(".crsEdit" + num).attr("id", obj.id);
                                 $(".crsDelete" + num).attr("id", obj.id);
+                                if ($("#grade" + obj.id).is(':visible')) {
+                                    $(".crsGrade" + num).text("Hide");
+                                } else {
+                                    $(".crsGrade" + num).text("Show");
+                                }
                                 $(".crsRow" + num).after($("#grade" + obj.id))
                             })
                         })

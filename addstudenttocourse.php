@@ -1,3 +1,14 @@
+<script language="JavaScript">
+function toggle(source) {
+  checkboxes = document.getElementsByClassName("checkboxesmrH");
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+
+</script>
+
+
 <?php
 include_once('./controllers/common.php');
 include_once('./components/head.php');
@@ -48,6 +59,7 @@ $num = 0;
                                     <tr id="addCourseTable_th" >
                                         <th scope="col">Student Name</th>
                                         <th scope="col">Student ID</th>
+                                        <th scope='col'> <input type="checkbox" onClick="toggle(this)" /> Toggle All<br/> </th>
                                     </tr>
                                 </thead>
                                 <tbody>

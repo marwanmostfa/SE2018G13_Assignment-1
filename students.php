@@ -244,6 +244,11 @@ Database::connect('school', 'root', '');
                                 $(".stdGrade" + num).attr("id", obj.id);
                                 $(".stdEdit" + num).attr("id", obj.id);
                                 $(".stdDelete" + num).attr("id", obj.id);
+                                if ($("#grade" + obj.id).is(':visible')) {
+                                    $(".stdGrade" + num).text("Hide");
+                                } else {
+                                    $(".stdGrade" + num).text("Show");
+                                }
                                 $(".stdRow" + num).after($("#grade" + obj.id))
                             })
                         })
@@ -251,4 +256,28 @@ Database::connect('school', 'root', '');
                             alert("Connection error.");
                         })
             }
+
+            /*  function gradeViewSort($col, $ord) {
+             $.ajax({
+             url: './controllers/gradesort.php',
+             type: 'GET',
+             dataType: 'json',
+             data: {column: $col, order: $ord, page: "std"},
+             })
+             .done(function (response) {
+             var num = 0;
+             response.forEach(function (obj) {
+             num = num + 1;
+             $(".stdID" + num).text(obj.id);
+             $(".stdName" + num).text(obj.name);
+             $(".stdGrade" + num).attr("id", obj.id);
+             $(".stdEdit" + num).attr("id", obj.id);
+             $(".stdDelete" + num).attr("id", obj.id);
+             $(".stdRow" + num).after($("#grade" + obj.id))
+             })
+             })
+             .fail(function () {
+             alert("Connection error.");
+             })
+             }*/
         </script>
