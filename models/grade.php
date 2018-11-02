@@ -68,17 +68,6 @@ class Grade extends Database {
         return $grades;
     }
 
-    public static function empty_grade($id) {
-        $sql = "SELECT * FROM grades WHERE ((student_id = ('$id')) AND (degree is NULL));";
-        $statement = Database::$db->prepare($sql);
-        $statement->execute();
-        $grades = [];
-        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-            $grades[] = new Grade($row['id'], "std");
-        }
-        return $grades;
-    }
-
     public static function add($course_id, $student_id) {
         $sql = "INSERT INTO grades (course_id,student_id,degree,examine_at) VALUES (?,?,NULL,NULL)";
         Database::$db->prepare($sql)->execute([$course_id, $student_id]);

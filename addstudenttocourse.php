@@ -1,14 +1,3 @@
-<script language="JavaScript">
-function toggle(source) {
-  checkboxes = document.getElementsByClassName("checkboxesmrH");
-  for(var i=0, n=checkboxes.length;i<n;i++) {
-    checkboxes[i].checked = source.checked;
-  }
-}
-
-</script>
-
-
 <?php
 include_once('./controllers/common.php');
 include_once('./components/head.php');
@@ -57,9 +46,13 @@ $num = 0;
                             <table class="table col-sm-12">
                                 <thead>
                                     <tr id="addCourseTable_th" >
-                                        <th scope="col">Student Name</th>
-                                        <th scope="col">Student ID</th>
-                                        <th scope='col'> <input type="checkbox" onClick="toggle(this)" /> Toggle All<br/> </th>
+                                        <th scope="col">
+                                            <label class="labelcontainer">Student Name
+                                                <input type="checkbox" onclick="toggle(this)">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </th>
+                                        <th scope="col" style="font-size: 18pt; padding-bottom: 25px">Student ID</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -79,11 +72,11 @@ $num = 0;
                                             <tr id="addCourseTable_tr">
                                                 <td>
                                                     <label class="labelcontainer"><?= $student->name ?>
-                                                        <input type="checkbox" name="<?= $check_box ?>" value="<?= $student->id ?>">
+                                                        <input type="checkbox"  class="Checked" name="<?= $check_box ?>" value="<?= $student->id ?>">
                                                         <span class="checkmark"></span>
                                                     </label>
                                                 </td>
-                                                <td>  <?= $student->id ?></td>
+                                                <td  style="font-size: 18pt"><?= $student->id ?></td>
                                             </tr>
                                             <?php
                                         }
@@ -100,3 +93,13 @@ $num = 0;
             </div>
         </form>
         <?php include_once('./components/tail.php') ?>
+
+        <script language="JavaScript">
+            function toggle(source) {
+                checkboxes = document.getElementsByClassName("Checked");
+                for (var i = 0, n = checkboxes.length; i < n; i++) {
+                    checkboxes[i].checked = source.checked;
+                }
+            }
+
+        </script>
