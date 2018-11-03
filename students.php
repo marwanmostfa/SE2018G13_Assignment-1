@@ -142,17 +142,19 @@ Database::DBConnect();
 
                 $('.delete_student').click(function () {
                     var anchor = $(this);
+                    var stdID = anchor.attr('id');
                     $.ajax({
                         url: './controllers/deletestudent.php',
                         type: 'GET',
                         dataType: 'json',
-                        data: {id: anchor.attr('id')},
+                        data: {id: stdID},
                     })
                             .done(function (response) {
                                 if (response.status == 1) {
                                     anchor.closest('tr').fadeOut('slow', function () {
                                         $(this).remove();
                                     });
+                                    $("#grade" + stdID).fadeOut('slow');
                                 }
                             })
                             .fail(function () {

@@ -154,17 +154,19 @@ Database::DBConnect();
 
                 $('.delete_course').click(function () {
                     var anchor = $(this);
+                    var crsID = anchor.attr('id');
                     $.ajax({
                         url: './controllers/deletecourses.php',
                         type: 'GET',
                         dataType: 'json',
-                        data: {id: anchor.attr('id')},
+                        data: {id: crsID},
                     })
                             .done(function (response) {
                                 if (response.status == 1) {
                                     anchor.closest('tr').fadeOut('slow', function () {
                                         $(this).remove();
                                     });
+                                    $("#grade" + crsID).fadeOut('slow');
                                 }
                             })
                             .fail(function () {

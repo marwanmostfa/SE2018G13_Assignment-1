@@ -46,6 +46,15 @@
                                 <li>Mohammed Adel</li>
                             </ul>
                         </div>
+                        <div class="card-link">
+                            <a href="https://github.com/IbrahimAmrIbrahim/SE2018G13_Assignment-1" class="c-link" target="_blank">GitHub repository
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <br>
+                             <a href="" class="c-link" target="_blank">Source File
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

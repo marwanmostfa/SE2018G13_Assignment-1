@@ -145,11 +145,12 @@ code {
     -ms-flex-pack: justify;
     justify-content: space-between;
     position: relative;
-    cursor: pointer;
+    cursor: default;
 }
 
 .card-box:hover {
     background: linear-gradient(to right, #1fa2ff17 0%, #12d8fa2b 51%, #1fa2ff36 100%);
+
 }
 
 .card-box:after {
@@ -186,4 +187,5 @@ code {
     font-family: 'Oswald', sans-serif;
     color: #FF5722;
     font-size: 15px;
+
 }
