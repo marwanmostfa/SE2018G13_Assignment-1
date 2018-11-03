@@ -51,7 +51,7 @@
                                 <i class="fa fa-angle-right"></i>
                             </a>
                             <br>
-                            <a href="controllers/download.php" class="c-link" target="_blank">Source File
+                            <a href="https://drive.google.com/open?id=1eId9WuplchbqCgRzxwjhrWLd1RfQUqGR" class="c-link" target="_blank">Source File
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         </div>
