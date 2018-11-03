@@ -51,7 +51,7 @@
                                 <i class="fa fa-angle-right"></i>
                             </a>
                             <br>
-                             <a href="" class="c-link" target="_blank">Source File
+                            <a href="controllers/download.php" class="c-link" target="_blank">Source File
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         </div>
