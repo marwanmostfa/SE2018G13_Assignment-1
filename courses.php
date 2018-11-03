@@ -130,7 +130,6 @@ Database::DBConnect();
                             </table>
                         </td>
                     </tr>
-
                 <?php } ?>
             </tbody>
         </table>

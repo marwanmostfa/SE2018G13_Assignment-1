@@ -2,7 +2,6 @@
 include_once('./controllers/common.php');
 include_once('./components/head.php');
 include_once('./models/student.php');
-include_once('./models/Courses.php');
 include_once('./models/grade.php');
 Database::DBConnect();
 $id = safeGet('id'); // course id

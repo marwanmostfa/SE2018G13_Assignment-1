@@ -1,12 +1,11 @@
 <?php
 include_once("./controllers/common.php");
 include_once('./components/head.php');
-include_once('./models/student.php');
 include_once('./models/Courses.php');
 include_once('./models/grade.php');
 Database::DBConnect();
 $id = safeGet('id');
-$grades = (Grade::std_all($id, NULL, NULL));
+$grades = Grade::std_all($id, NULL, NULL);
 $courses = Courses::all(NULL, null, null);
 $num = 0;
 $check_box = "checkbox" . $num;
