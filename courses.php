@@ -104,7 +104,7 @@ Database::DBConnect();
                                             <button class="button examineatSortbtn" crsID="<?= $Courses->id ?>"><i class="fas fa-random <?= $Courses->id ?>examineatSort"></i></button>
                                         </th>
                                         <th scope="col">
-                                            <button class="button float-right add_student"  id="<?= $Courses->id ?>">Add student</button>
+                                            <button class="button float-right add_student"  id="<?= $Courses->id ?>">Assign Students</button>
                                         </th>
                                     </tr>
                                 </thead>
