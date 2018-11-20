@@ -4,8 +4,6 @@
 
 &nbsp;
 
-&nbsp;
-
 ### Team members:
 
 | **Code** | **Name** | **Section** |
